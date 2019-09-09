@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="ISO-8859-1">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">"></script>
+<script src="animazioni.js"></script>
+<title>Login</title>
+</head>
+<body>
+	<form action="http://localhost:8080/Project/Access" method="POST" id="login">
+	<h5>LOGIN </h5>
+	<p id="p1"> Dovrei scomparire </p>
+	Username: <input type="text" name="username" required><br /><br />
+	Password: <input type="password" name="password" required><br /><br />
+	<input type="submit" value="Accedi">	
+	</form>
+	<p>	Se non sei ancora registrato, fallo adesso.</p>
+	<button onclick="document.location.href='registrazione.html'">Registrati</button>
+</body>
+</html>

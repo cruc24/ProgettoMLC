@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Add_Film</title>
+</head>
+<body>
+	<h1>Questa pagina aggiunge i film.</h1>
+	<form action="http://localhost:8080/Project/Add_film" method="POST">
+		<label>Titolo film:</label>
+		<input type="text" name="titolo"> <br /><br />
+		<label>Data riproduzione film:</label>
+		<input type="date" name="giorno"> <br /><br />
+		<label>Orario inizio film:</label>
+		<input type="time" name="ora_init"> <br /><br />
+		<label>Orario termine film:</label>
+		<input type="time" name="ora_fine"> <br /><br />
+		<label>Durata film:</label>
+		<input type="time" name="durata"> <br /><br />
+		<label>Sala proiezione del film:</label>
+		<input type="radio" name="sala_cinema" value="fantasy" checked> Fantasy <br />
+		<input type="radio" name="sala_cinema" value="action"> Action <br />
+		<input type="radio" name="sala_cinema" value="animazione"> Animazione <br />
+		<input type="radio" name="sala_cinema" value="romantico">Romantico<br />
+		<label>Locandina film:</label>
+		<input type="file" name="locandina"> <br /><br />
+ 		<input type="submit" value="Insert">		
+	</form>
+</body>
+</html>

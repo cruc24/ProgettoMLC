@@ -12,7 +12,7 @@
 
 
 <form action="http://localhost:8080/Project/Visualizza_Film" method="POST">
-		<input type="submit" value="Film">
+		<input type="submit" name="opzione" value="Film">
 </form>
 
 

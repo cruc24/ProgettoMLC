@@ -4,7 +4,7 @@ import java.awt.Image;
 
 
 public class Film {
-	
+	private String id;
 	private String titolo;
 	private String data;
 	private String ora_init;
@@ -12,7 +12,13 @@ public class Film {
 	private String durata;
 	private String sala_cinema;
 	private String locandina;
-
+	
+	public void setId(String id){
+		this.id=id;
+	}
+	public String getId() {
+		return this.id;
+	}
 	public void setTitolo(String titolo) {
 		this.titolo=titolo;
 	}

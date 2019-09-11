@@ -21,7 +21,7 @@ import com.Project.beans.Utente;
 /**
  * Servlet implementation class Modifica_film
  */
-@WebServlet("/Modifica_film")
+@WebServlet("/Modifica_Film")
 public class Modifica_Film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -67,12 +67,13 @@ public class Modifica_Film extends HttpServlet {
 				
 				String sql="update films set titolo=?,giorno=?,ora_init=?,ora_fine=?, durata=?,sala=? where id=? ;";
 				statement=connection.prepareStatement(sql);
-				statement.setString(1, film.getTitolo());
-				statement.setString(2, film.getData());
-				statement.setString(3, film.getOra_Init());
-				statement.setString(4, film.getOra_Fine());
-				statement.setString(5, film.getDurata());
-				statement.setString(6, film.getSala());				
+				statement.setString(1, film.getId());
+				statement.setString(2, film.getTitolo());
+				statement.setString(3, film.getData());
+				statement.setString(4, film.getOra_Init());
+				statement.setString(5, film.getOra_Fine());
+				statement.setString(6, film.getDurata());
+				statement.setString(7, film.getSala());				
 				statement.executeUpdate();
 				}
 			catch(ClassNotFoundException e)	{

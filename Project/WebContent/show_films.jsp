@@ -14,6 +14,7 @@
 %>
 	<table>
 		<tr>
+			<th></th>
 			<th>Titolo</th>
 			<th>Data</th>
 			<th>ora_init</th>
@@ -27,7 +28,8 @@
 		  out.println("<tr>");
 		  Film film= new Film();
 		  film=i.next();
-	      out.println("<td>'" + film.getTitolo() + "'</td>");
+		  out.println("<td>" + film.getId() + "</td>");
+	      out.println("<td>" + film.getTitolo() + "</td>");
 	      out.println("<td>" + film.getData() + "</td>");
 	      out.println("<td>" + film.getOra_Init() + "</td>");
 	      out.println("<td>" + film.getOra_Fine() + "</td>");

@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,14 +18,14 @@ import com.Project.beans.Film;
 /**
  * Servlet implementation class Elimina_film
  */
-@WebServlet("/Elimina_film")
-public class Elimina_film extends HttpServlet {
+@WebServlet("/Elimina_Film")
+public class Elimina_Film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Elimina_film() {
+    public Elimina_Film() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,7 +42,7 @@ public class Elimina_film extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("modifica.jsp");
+		response.sendRedirect("home.jsp");
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
@@ -52,11 +54,11 @@ public class Elimina_film extends HttpServlet {
 				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
 				PreparedStatement statement;
 				Film film = new Film();
-				film.setTitolo(request.getParameter("elimina"));
+				film.setId(request.getParameter("id"));
 				String sql="delete from films where id=? ";
 				statement=connection.prepareStatement(sql);
-				statement.setString(1,film.getTitolo());
-				statement.executeUpdate(); 
+				statement.setString(1,film.getId());
+				statement.executeUpdate();
 			}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");

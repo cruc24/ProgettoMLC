@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"  import="com.Project.servlet.*,com.Project.beans.*,java.sql.*" %>
+    pageEncoding="ISO-8859-1"  import="com.Project.servlet.*,com.Project.beans.*,java.util.*,java.io.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,15 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-	String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
-	String user="root";
-	String pwd="root";
-	Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
-	Statement statement=null;
-	statement = connection.createStatement();
-	String sql="select * from films";
-	ResultSet rs = statement.executeQuery(sql);%>
+	<% 
+	ArrayList<Film> f= new ArrayList<>();
+	f=(ArrayList<Film>) request.getAttribute("film");
+	Iterator <Film> i= f.iterator();
+	%>
 	<table id="tabella">
 		<tr>
 			<th></th>
@@ -25,24 +21,26 @@
 			<th>Ora_fin</th>
 			<th>Durata</th>
 			<th>Sala</th>
-			<th> </th>
-			<th> </th>
 		</tr>
-	<%	while(rs.next())
+	<%	while(i.hasNext())
 		{
+		  Film film= new Film();
+		  film=i.next();
 		  out.println("<tr>");
-		  out.println("<td>'" + rs.getString("id") + "'</td>");
-	      out.println("<td>'" + rs.getString("titolo") + "'</td>");
-	      out.println("<td>" + rs.getString("giorno") + "</td>");
-	      out.println("<td>" + rs.getString("ora_init") + "</td>");
-	      out.println("<td>" + rs.getString("ora_fine") + "</td>");
-	      out.println("<td>" + rs.getString("durata") + "</td>");
-	      out.println("<td>" + rs.getString("sala") + "</td>");
-	      out.println("<td>" + "<button onclick=document.getElementById('alter_form').style.display='block' style='width:auto;'>"+"modifica</button>"+"</td>");
+		  out.println("<td style='display:none;'>" + film.getId() + "</td>");
+		  out.println("<td></td>");
+		  out.println("<td>'" + film.getTitolo() + "'</td>");
+	      out.println("<td>" + film.getData() + "</td>");
+	      out.println("<td>" + film.getOra_Init() + "</td>");
+	      out.println("<td>" + film.getOra_Fine() + "</td>");
+	      out.println("<td>" + film.getDurata()+"h" + "</td>");
+	      out.println("<td>" + film.getSala() + "</td>");
+	      out.print("<td>" + "<button onclick=document.getElementById('alter_form').style.display='block' style='width:auto;'>"+"modifica</button>"+"</td>");
+	      out.println("</tr>");
 		}%>
 	</table>
 	<div id="alter_form" style="display:none;">
-		<form action="" method="POST" id="modify">
+		<form action="http://localhost:8080/Project/Modifica_Film" method="POST" >
 		<h5>Modifica Film </h5>
 		Id: <input type="text" name="id" id="id" ><br /><br />
 		Titolo: <input type="text" name="titolo" id="titolo" ><br /><br />
@@ -60,12 +58,12 @@
                     {
                          //rIndex = this.rowIndex;
 						 document.getElementById("id").value = this.cells[0].innerHTML;
-                         document.getElementById("titolo").value = this.cells[1].innerHTML;
-                         document.getElementById("giorno").value = this.cells[2].innerHTML;
-                         document.getElementById("ora_init").value = this.cells[3].innerHTML;
-                         document.getElementById("ora_fin").value = this.cells[4].innerHTML;
-                         document.getElementById("durata").value = this.cells[5].innerHTML;
-                         document.getElementById("sala").value = this.cells[6].innerHTML;
+                         document.getElementById("titolo").value = this.cells[2].innerHTML;
+                         document.getElementById("giorno").value = this.cells[3].innerHTML;
+                         document.getElementById("ora_init").value = this.cells[4].innerHTML;
+                         document.getElementById("ora_fin").value = this.cells[5].innerHTML;
+                         document.getElementById("durata").value = this.cells[6].innerHTML;
+                         document.getElementById("sala").value = this.cells[7].innerHTML;
                     };
                 }
         </script>

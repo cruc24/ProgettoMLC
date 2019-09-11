@@ -11,7 +11,7 @@ public class Film {
 	private String ora_fine;
 	private String durata;
 	private String sala_cinema;
-	private Image locandina;
+	private String locandina;
 
 	public void setTitolo(String titolo) {
 		this.titolo=titolo;
@@ -49,10 +49,10 @@ public class Film {
 	public String getSala() {
 		return this.sala_cinema;
 	}
-	public void setLocandina(Image locandina){
+	public void setLocandina(String locandina){
 		this.locandina=locandina;
 	}
-	public Image getLocandina() {
+	public String getLocandina() {
 		return this.locandina;
 	}
 }

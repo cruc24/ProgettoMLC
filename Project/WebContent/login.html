@@ -4,16 +4,18 @@
 <meta charset="ISO-8859-1">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">"></script>
 <script src="animazioni.js"></script>
+<link rel="stylesheet" type="text/css" href="projectStyle.css">
 <title>Login</title>
 </head>
 <body>
 	<form action="http://localhost:8080/Project/Access" method="POST" id="login">
-	<h5>LOGIN </h5>
-	<p id="p1"> Dovrei scomparire </p>
+	<h1 class="title">LOGIN </h1>
 	Username: <input type="text" name="username" required><br /><br />
-	Password: <input type="password" name="password" required><br /><br />
+	Password: <input type="password" name="password" id="password" required>
+	<img src="/Project/images/eye.png" id="togglepwd" style="width:13px;height:13px;"><br /><br />
 	<input type="submit" value="Accedi">	
 	</form>
+	<p>PS: con iframe posso creare un link alla pagina di wipedia</p>
 	<p>	Se non sei ancora registrato, fallo adesso.</p>
 	<button onclick="document.location.href='registrazione.html'">Registrati</button>
 </body>

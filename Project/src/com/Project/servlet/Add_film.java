@@ -61,12 +61,21 @@ public class Add_film extends HttpServlet {
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setSala(request.getParameter("sala_cinema"));
 				film.setDurata(request.getParameter("durata"));
+				//film.setLocandina(request.getParameter("locandina"));
+				
 				
 				String s= request.getPathTranslated();
 				System.out.println(s);
 				System.out.println(request.getAttribute("locandina"));
 				System.out.println(request.getContentLength());
 				System.out.println(request.getContextPath());
+				System.out.println(request.getCharacterEncoding());
+				System.out.println(request.getContentType());
+				System.out.println(request.getHeader("locandina"));
+				System.out.println(request.getParameter("locandina"));
+				System.out.println(request.getPathInfo());
+				
+				
 				/*
 				byte[] i= Base64.decode(s);
 				ByteArrayInputStream bis = new ByteArrayInputStream(i);
@@ -81,7 +90,7 @@ public class Add_film extends HttpServlet {
 				statement.setString(4,film.getOra_Fine());
 				statement.setString(5, film.getDurata());
 				statement.setString(6, film.getSala());
-				//statement.setBlob(7, (Blob) film.getLocandina());
+				//statement.setString(7, film.getLocandina());
 				
 				statement.executeUpdate();
 			}

@@ -11,11 +11,11 @@
 	<h1>Welcome back: ${utente.getUserName()} </h1>
 
 
-<button onClick="document.location.href='add_film.html'" >Inserisci Film</button>
+<form action="http://localhost:8080/Project/Visualizza_Film" method="POST">
+		<input type="submit" value="Film">
+</form>
 
-<button onClick="document.location.href='modifica.jsp'" >Modifica Film</button>
 
-<button onClick="document.location.href='show_films.jsp'" >Mostra Film</button>
 
 
 

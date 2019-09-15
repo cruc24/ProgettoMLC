@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">"></script>
+<script src="animazioni.js"></script>
+<link rel="stylesheet" type="text/css" href="projectStyle.css">
 <meta charset="ISO-8859-1">
 <title>Add_Film</title>
 </head>
 <body>
 	<h1>Questa pagina aggiunge i film.</h1>
-	<form action="http://localhost:8080/Project/Add_film" method="POST">
+	<form action="http://localhost:8080/Project/Add_film" method="POST" id="add" enctype="multipart/form-data" >
 		<label>Titolo film:</label>
 		<input type="text" name="titolo"> <br /><br />
 		<label>Data riproduzione film:</label>
-		<input type="date" name="giorno"> <br /><br />
+		<input type="date" name="giorno" id="giorno"> <label id="check_data"></label> <br /><br />
 		<label>Orario inizio film:</label>
-		<input type="time" name="ora_init"> <br /><br />
+		<input type="time" name="ora_init" id="ora_init"> <br /><br />
 		<label>Orario termine film:</label>
-		<input type="time" name="ora_fine"> <br /><br />
+		<input type="time" name="ora_fine" id="ora_fine"> <br /><br />
 		<label>Durata film:</label>
-		<input type="time" name="durata"> <br /><br />
-		<label>Sala proiezione del film:</label>
-		<input type="radio" name="sala_cinema" value="fantasy" checked> Fantasy <br />
-		<input type="radio" name="sala_cinema" value="action"> Action <br />
-		<input type="radio" name="sala_cinema" value="animazione"> Animazione <br />
-		<input type="radio" name="sala_cinema" value="romantico">Romantico<br />
+		<input type=text name="durata" id="durata"> <br /><br />
+		<label>Sala proiezione del film:</label><br />
+		<input type="radio" name="sala" value="Sala_1" checked> Sala 1 <br />
+		<input type="radio" name="sala" value="Sala_2"> Sala 2 <br />
+		<input type="radio" name="sala" value="Sala_3"> Sala 3 <br />
+		<input type="radio" name="sala" value="Sala_4"> Sala 4 <br />
 		<label>Locandina film:</label>
-		<input type="file" name="locandina" id="file" value="document.getElementById('file').value"> <br /><br />
+		<input type="file" name="file" id="file"> <br /><br />
  		<input type="submit" value="Insert">		
 	</form>
 </body>

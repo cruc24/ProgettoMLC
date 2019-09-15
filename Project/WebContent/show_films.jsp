@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"  import="com.Project.servlet.*,com.Project.beans.*,java.util.*,java.io.*" %>
+    pageEncoding="ISO-8859-1"  import="com.Project.servlet.*,com.Project.beans.*,java.util.*,java.io.*,java.awt.image.*,javax.imageio.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,9 +33,11 @@
 	      out.println("<td>" + film.getData() + "</td>");
 	      out.println("<td>" + film.getOra_Init() + "</td>");
 	      out.println("<td>" + film.getOra_Fine() + "</td>");
-	      out.println("<td>" + film.getDurata()+"h" + "</td>");
+	      out.println("<td>" + film.getDurata()+ "</td>");
 	      out.println("<td>" + film.getSala() + "</td>");
+	      out.println("<td>" + "<img src='/Project/Locandine_film/"+ film.getFileName()+"' width='20' heigth='20'>" + "</td>");
 	      out.println("</tr>");
+	      
 		}
 	%>
 	</table>

@@ -1,34 +1,21 @@
 package com.Project.servlet;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.sql.Blob;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import javax.imageio.ImageIO;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import javax.servlet.http.Part;
 import com.Project.beans.Film;
 
 @WebServlet("/Add_film")
+@MultipartConfig
 public class Add_film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,8 +31,7 @@ public class Add_film extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.sendRedirect("home.jsp");
 		try {
-			response.setContentType("text/html");
-			PrintWriter out=response.getWriter();
+			response.setContentType("text/html;charset=UTF-8");
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
@@ -59,30 +45,20 @@ public class Add_film extends HttpServlet {
 				film.setData(request.getParameter("giorno"));
 				film.setOra_Init(request.getParameter("ora_init"));
 				film.setOra_Fine(request.getParameter("ora_fine"));
-				film.setSala(request.getParameter("sala_cinema"));
+				film.setSala(request.getParameter("sala"));
 				film.setDurata(request.getParameter("durata"));
-				//film.setLocandina(request.getParameter("locandina"));
+				
+				Part file= request.getPart("file");
+				String filename= file.getSubmittedFileName();
+				String savePath= "C:\\Users\\Luca\\git\\repository\\Project\\WebContent\\Locandine_film"+ File.separatorChar+filename;
+				//File directory= new File(savePath);
+				file.write(savePath+File.separatorChar);
+				film.setFileName(filename);
+				film.setPath(savePath);
+				System.out.println(savePath);
 				
 				
-				String s= request.getPathTranslated();
-				System.out.println(s);
-				System.out.println(request.getAttribute("locandina"));
-				System.out.println(request.getContentLength());
-				System.out.println(request.getContextPath());
-				System.out.println(request.getCharacterEncoding());
-				System.out.println(request.getContentType());
-				System.out.println(request.getHeader("locandina"));
-				System.out.println(request.getParameter("locandina"));
-				System.out.println(request.getPathInfo());
-				
-				
-				/*
-				byte[] i= Base64.decode(s);
-				ByteArrayInputStream bis = new ByteArrayInputStream(i);
-			    BufferedImage image2 = ImageIO.read(bis);
-			    film.setLocandina(image2);
-				*/
-				String sql="insert into films (titolo,giorno,ora_init,ora_fine,durata,sala) values (?,?,?,?,?,?) ";
+				String sql="insert into films (titolo,giorno,ora_init,ora_fine,durata,sala,filename,file_path) values (?,?,?,?,?,?,?,?);";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1,film.getTitolo());
 				statement.setString(2, film.getData());
@@ -90,9 +66,10 @@ public class Add_film extends HttpServlet {
 				statement.setString(4,film.getOra_Fine());
 				statement.setString(5, film.getDurata());
 				statement.setString(6, film.getSala());
-				//statement.setString(7, film.getLocandina());
-				
+				statement.setString(7, film.getFileName());
+				statement.setString(8, film.getPath());
 				statement.executeUpdate();
+				
 			}
 			catch(ClassNotFoundException e)	{
 				e.printStackTrace();

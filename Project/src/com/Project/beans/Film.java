@@ -1,8 +1,5 @@
 package com.Project.beans;
 
-import java.awt.Image;
-
-
 public class Film {
 	private String id;
 	private String titolo;
@@ -11,7 +8,8 @@ public class Film {
 	private String ora_fine;
 	private String durata;
 	private String sala_cinema;
-	private String locandina;
+	private String filename;
+	private String path;
 	
 	public void setId(String id){
 		this.id=id;
@@ -55,10 +53,16 @@ public class Film {
 	public String getSala() {
 		return this.sala_cinema;
 	}
-	public void setLocandina(String locandina){
-		this.locandina=locandina;
+	public void setFileName(String filename){
+		this.filename=filename;
 	}
-	public String getLocandina() {
-		return this.locandina;
+	public String getFileName() {
+		return this.filename;
+	}
+	public void setPath(String path){
+		this.path=path;
+	}
+	public String getPath() {
+		return this.path;
 	}
 }

@@ -8,7 +8,9 @@
 <link rel="stylesheet" type="text/css" href="./projectStyle.css">
 </head>
 <body>
-<%	Utente utente= (Utente)request.getAttribute("utente"); %>
+<%	Utente utente= (Utente)request.getAttribute("utente"); 
+	
+%>
 	<h1 class="title">Welcome back: ${utente.getUserName()} </h1>
 <div id="gestionefilm">
 <form action="http://localhost:8080/Project/Visualizza_Film" method="POST">
@@ -22,7 +24,7 @@
 <button onclick="document.location.href='show_admin.jsp'">Admins</button>
 </div>
 <div id="gestioneout">
-<button onclick="document.location.href='login.html'">Logout</button>
+<button onclick="document.location.href='login.jsp'">Logout</button>
 </div>
 
 

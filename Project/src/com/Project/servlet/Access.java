@@ -46,7 +46,7 @@ public class Access extends HttpServlet {
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
-			String jsp_url="";
+			String jsp_url="/login.html";
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
@@ -63,8 +63,8 @@ public class Access extends HttpServlet {
 				statement=connection.prepareStatement(sql);
 				statement.setString(1, utente.getUserName());
 				statement.setString(2, utente.getPassword());
-				
 				ResultSet rs= statement.executeQuery();
+				String messaggio="Login/Password errati.";
 				if(rs.next())
 					{
 						request.setAttribute("utente", utente);
@@ -72,9 +72,9 @@ public class Access extends HttpServlet {
 					}
 				else
 					{
-						response.sendRedirect("login.html");
+					    request.setAttribute("messaggio", messaggio);
+					    jsp_url="/login.jsp";
 					}
-				
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
 		        dispatcher.forward(request, response);    
 			}

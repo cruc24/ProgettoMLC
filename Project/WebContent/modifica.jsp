@@ -11,6 +11,7 @@
 	ArrayList<Film> f= new ArrayList<>();
 	f=(ArrayList<Film>) request.getAttribute("film");
 	Iterator <Film> i= f.iterator();
+	String errore=(String)request.getAttribute("errore");
 	%>
 	<table id="tabella">
 		<tr>
@@ -38,20 +39,24 @@
 	      out.println("</tr>");
 		}%>
 	</table>
+	<%
+			if(errore != null)
+				out.println("<p style=color:red;>" + errore + "</p>");
+	%>
 	<div id="alter_form" style="display:none;">
 		<form action="http://localhost:8080/Project/Modifica_Film" method="POST" >
 		<h5>Modifica Film </h5>
-		Id: <input type="text" name="id" id="id" ><br /><br />
+		Id: <input type="text" name="id" id="id" readonly ><br /><br />
 		Titolo: <input type="text" name="titolo" id="titolo" ><br /><br />
 		Giorno: <input type="text" name="giorno" id="giorno" ><br /><br />
 		Ora Inizio: <input type="text" name="ora_init" id="ora_init" ><br /><br />
 		Ora Fine: <input type="text" name="ora_fine" id="ora_fin" ><br /><br />
 		Durata: <input type="text" name="durata" id="durata" ><br /><br />
 		Sala: <br />
-				<input type="radio" name="sala" value="Sala_1" id="sala_cinema"> Sala 1 <br />
-				<input type="radio" name="sala" value="Sala_2" id="sala_cinema"> Sala 2 <br />
-				<input type="radio" name="sala" value="Sala_3" id="sala_cinema"> Sala 3 <br />
-				<input type="radio" name="sala" value="Sala_4" id="sala_cinema"> Sala 4 <br />
+				<input type="radio" name="sala" value="Sala_1" id="sala"> Sala 1 <br />
+				<input type="radio" name="sala" value="Sala_2" id="sala"> Sala 2 <br />
+				<input type="radio" name="sala" value="Sala_3" id="sala"> Sala 3 <br />
+				<input type="radio" name="sala" value="Sala_4" id="sala"> Sala 4 <br />
 				<input type="submit" value="Modifica"><br /> <br />
 		<script>
 		var table = document.getElementById('tabella');
@@ -66,13 +71,12 @@
                          document.getElementById("ora_fin").value = this.cells[4].innerHTML;
                          document.getElementById("durata").value = this.cells[5].innerHTML;
                          
-                         var radios = document.getElementsById("sala_cinema");
+                         var radios = document.getElementsById("sala");
                          for (var j = 0; j < radios.length; j++) {
                              if (radios[j].value == this.cells[6].innerHTML) {
                                  radios[j].checked = true;
                                  break;}}
-                         //document.getElementById("sala_cinema").checked = this.cells[7].innerHTML;
-                    };
+                    }
                 }
         </script>
 		</form>

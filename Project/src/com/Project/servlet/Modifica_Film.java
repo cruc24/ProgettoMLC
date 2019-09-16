@@ -5,18 +5,15 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.Project.beans.Film;
-import com.Project.beans.Utente;
+import com.Project.beans.*;
 
 /**
  * Servlet implementation class Modifica_film
@@ -56,7 +53,7 @@ public class Modifica_Film extends HttpServlet {
 				String pwd="root";
 				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
 				PreparedStatement statement;
-				
+				Controllo c= new Controllo();
 				Film film = new Film();
 				film.setId(request.getParameter("id"));
 				film.setTitolo(request.getParameter("titolo"));
@@ -65,15 +62,27 @@ public class Modifica_Film extends HttpServlet {
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setDurata(request.getParameter("durata"));
 				film.setSala(request.getParameter("sala"));
-				
-				out.println(request.getParameter("id"));
-				out.println(request.getParameter("titolo"));
-				out.println(request.getParameter("giorno"));
-				out.println(request.getParameter("ora_init"));
-				out.println(request.getParameter("ora_fine"));
-				out.println(request.getParameter("durata"));
-				out.println(request.getParameter("sala_cinema"));
-				
+				PrintWriter u = new PrintWriter(System.out,true);
+				String errore="";
+				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film))
+				{
+					if(c.Occupato(film)){
+						errore+="sala già occupata.\n";
+						request.setAttribute("errore", errore);
+					}
+					if(c.inCorso(film)){
+						errore+="film in esecuzione impossibile modificare.\n";
+						request.setAttribute("errore", errore);
+					}
+					if(!c.ControlOra(film)) {
+						errore+="orario non valido.\n";
+						request.setAttribute("errore", errore);
+					}
+					u.println(errore);
+				}
+				else
+				{
+					u.println("sono dentro.");
 				String sql="update films set titolo=?,giorno=?,ora_init=?,ora_fine=?, durata=?,sala=? where id=? ;";
 				statement=connection.prepareStatement(sql);
 				statement.setString(7, film.getId());
@@ -82,8 +91,10 @@ public class Modifica_Film extends HttpServlet {
 				statement.setString(3, film.getOra_Init());
 				statement.setString(4, film.getOra_Fine());
 				statement.setString(5, film.getDurata());
-				statement.setString(6, film.getSala());				
+				statement.setString(6, film.getSala());		
+				statement.setString(7, film.getId());
 				statement.executeUpdate();
+				}
 				}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");

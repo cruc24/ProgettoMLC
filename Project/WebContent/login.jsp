@@ -20,13 +20,15 @@
 	<input type="submit" value="Accedi">	
 	</form>
 	<% 
-		String msg= (String)request.getAttribute("message");
+		String msg= (String)request.getAttribute("messaggio");
 		if(msg!=null)
 		{
-			out.println("<p>"+ msg +"</p>");
+			out.println("<p id='msg'>"+ msg +"</p>");
 		}
+		System.out.println(msg);
 	%>
 	<p>	Se non sei ancora registrato, fallo adesso.</p>
+	<p> PS: posso usare una funzione sola per il print della tabella?
 	<button onclick="document.location.href='registrazione.html'">Registrati</button>
 	</div>
 </body>

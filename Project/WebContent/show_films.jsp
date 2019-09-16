@@ -35,7 +35,7 @@
 	      out.println("<td>" + film.getOra_Fine() + "</td>");
 	      out.println("<td>" + film.getDurata()+ "</td>");
 	      out.println("<td>" + film.getSala() + "</td>");
-	      out.println("<td>" + "<img src='/Project/Locandine_film/"+ film.getFileName()+"' width='20' heigth='20'>" + "</td>");
+	      out.println("<td>" + "<img src='./Locandine_film/"+ film.getFileName()+"' width='20' heigth='20'>" + "</td>");
 	      out.println("</tr>");
 	      
 		}

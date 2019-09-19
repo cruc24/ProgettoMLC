@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.Project.beans.Controllo;
 import com.Project.beans.Film;
 
 /**
@@ -42,7 +46,6 @@ public class Elimina_Film extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("home.jsp");
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
@@ -54,12 +57,55 @@ public class Elimina_Film extends HttpServlet {
 				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
 				PreparedStatement statement;
 				Film film = new Film();
+				film.setTitolo(request.getParameter("titolo"));
+				film.setData(request.getParameter("giorno"));
+				film.setOra_Init(request.getParameter("ora_init"));
+				film.setOra_Fine(request.getParameter("ora_fine"));
+				film.setSala(request.getParameter("sala"));
+				ArrayList<Film> f= new ArrayList<>();
+				Controllo c= new Controllo();
+				String errore="";
+				String jsp_url="";
+				if(c.inCorso(film))
+				{
+					PreparedStatement st=null;
+					String sql="select * from films";
+					st=connection.prepareStatement(sql);
+					ResultSet rs = st.executeQuery(sql);
+					while(rs.next()) {
+						Film filmino = new Film();
+						filmino.setId(rs.getString("id"));
+						filmino.setTitolo(rs.getString("titolo"));
+						filmino.setData(rs.getString("giorno"));
+						filmino.setOra_Init(rs.getString("ora_init"));
+						filmino.setOra_Fine(rs.getString("ora_fine"));
+						filmino.setSala(rs.getString("sala"));
+						filmino.setFileName(rs.getString("filename"));
+						filmino.setPath(rs.getString("file_path"));
+						f.add(filmino);
+					}
+					if(c.inCorso(film)){
+						errore+="film in esecuzione impossibile modificare.\n";
+					}
+					jsp_url="/elimina.jsp";
+					request.setAttribute("errore", errore);
+					
+					
+				}
+				else
+				{
 				film.setId(request.getParameter("id"));
 				System.out.println(request.getParameter("id"));
 				String sql="delete from films where id=?";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1,film.getId());
+				
 				statement.executeUpdate();
+				jsp_url="/home.jsp";
+				}
+				request.setAttribute("film", f);
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
+		        dispatcher.forward(request, response);
 			}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");

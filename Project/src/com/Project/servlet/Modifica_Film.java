@@ -5,8 +5,12 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,28 +25,8 @@ import com.Project.beans.*;
 @WebServlet("/Modifica_Film")
 public class Modifica_Film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Modifica_Film() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("home.jsp");
+		String jsp_url="";
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
@@ -55,17 +39,32 @@ public class Modifica_Film extends HttpServlet {
 				PreparedStatement statement;
 				Controllo c= new Controllo();
 				Film film = new Film();
+				ArrayList<Film> f= new ArrayList<>();
 				film.setId(request.getParameter("id"));
 				film.setTitolo(request.getParameter("titolo"));
 				film.setData(request.getParameter("giorno"));
 				film.setOra_Init(request.getParameter("ora_init"));
 				film.setOra_Fine(request.getParameter("ora_fine"));
-				film.setDurata(request.getParameter("durata"));
 				film.setSala(request.getParameter("sala"));
-				PrintWriter u = new PrintWriter(System.out,true);
 				String errore="";
-				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film))
+				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film) || !c.ControlData(film))
 				{
+					PreparedStatement st=null;
+					String sql="select * from films";
+					st=connection.prepareStatement(sql);
+					ResultSet rs = st.executeQuery();
+					while(rs.next()) {
+						Film filmino = new Film();
+						filmino.setId(rs.getString("id"));
+						filmino.setTitolo(rs.getString("titolo"));
+						filmino.setData(rs.getString("giorno"));
+						filmino.setOra_Init(rs.getString("ora_init"));
+						filmino.setOra_Fine(rs.getString("ora_fine"));
+						filmino.setSala(rs.getString("sala"));
+						filmino.setFileName(rs.getString("filename"));
+						filmino.setPath(rs.getString("file_path"));
+						f.add(filmino);
+					}
 					if(c.Occupato(film)){
 						errore+="sala già occupata.\n";
 						request.setAttribute("errore", errore);
@@ -74,15 +73,16 @@ public class Modifica_Film extends HttpServlet {
 						errore+="film in esecuzione impossibile modificare.\n";
 						request.setAttribute("errore", errore);
 					}
-					if(!c.ControlOra(film)) {
-						errore+="orario non valido.\n";
+					if(!c.ControlOra(film)|| !c.ControlData(film)) {
+						errore+="orario/data non valido.\n";
 						request.setAttribute("errore", errore);
 					}
-					u.println(errore);
+					jsp_url="/modifica.jsp";
+					request.setAttribute("errore", errore);
+					request.setAttribute("film", f);
 				}
 				else
 				{
-					u.println("sono dentro.");
 				String sql="update films set titolo=?,giorno=?,ora_init=?,ora_fine=?, durata=?,sala=? where id=? ;";
 				statement=connection.prepareStatement(sql);
 				statement.setString(7, film.getId());
@@ -90,15 +90,20 @@ public class Modifica_Film extends HttpServlet {
 				statement.setString(2, film.getData());
 				statement.setString(3, film.getOra_Init());
 				statement.setString(4, film.getOra_Fine());
-				statement.setString(5, film.getDurata());
 				statement.setString(6, film.getSala());		
 				statement.setString(7, film.getId());
 				statement.executeUpdate();
+				jsp_url="/home.jsp";
 				}
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(jsp_url);
+				rd.forward(request, response);
 				}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");
-				}
+				} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			}
 		catch(SQLException e)
 		{

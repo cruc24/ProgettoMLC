@@ -8,31 +8,45 @@
 <link rel="stylesheet" type="text/css" href="./projectStyle.css">
 </head>
 <body>
-<%	Utente utente= (Utente)request.getAttribute("utente"); 
-	
-%>
-	<h1 class="title">Welcome back: ${utente.getUserName()} </h1>
-<div id="gestionefilm">
-<form action="http://localhost:8080/Project/Visualizza_Film" method="POST">
-		<input type="submit" name="opzione" value=" Gestione Film">
-</form>
+<div class="header">
+	<h1 class="title">CINEMA HOME</h1>
+	<button onclick="document.location.href='login.jsp'" class="button_header">Logout</button>
 </div>
-<div id="gestionesale">
-	<button type="submit" onclick="document.location.href='show_sale.jsp'">Gestione Sale</button>
+<div class="content"  >
+		<form action= "http://localhost:8080/Project/Visualizza_Film" method="POST">
+		<table>
+		<tr>
+		<td><input class= "button" type= "submit"  value= "Aggiungi Film"></td>
+		<td><input class= "button" type= "submit" name= "opzione" value= "Elimina Film"></td>
+		</tr>
+		<tr>
+		<td><input class= "button" type="submit" name="opzione" value= "Modifica Film"></td>
+		<td><input class= "button" type="submit" name="opzione" value= "Visualizza Film"></td>
+		</tr>
+		</table>
+		</form>
+		<br />
+		<br />
+		<table>
+		<tr>
+		<td>
+	<form action="http://localhost:8080/Project/Gestione_Sale" method="POST">
+		</td>
+		<td>
+		<input class="button" type="submit" name="opzione" value="Sala_1">
+		</td>
+		<td>
+		<input class="button" type="submit" name="opzione" value="Sala_2">
+		</td>
+		<td>
+		<input class="button" type="submit" name="opzione" value="Sala_3">
+		</td>
+		<td>
+		<input class="button" type="submit" name="opzione" value="Sala_4">
+		</td>
+	</form>
+		</tr>
+		</table>
 </div>
-<div id="gestioneadmin">
-<button onclick="document.location.href='show_admin.jsp'">Admins</button>
-</div>
-<div id="gestioneout">
-<button onclick="document.location.href='login.jsp'">Logout</button>
-</div>
-
-
-
-
-
-
-
-
 </body>
 </html>

@@ -18,16 +18,6 @@ import com.Project.beans.Film;
 @MultipartConfig
 public class Add_film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-    public Add_film() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.sendRedirect("home.jsp");
 		try {
@@ -39,14 +29,12 @@ public class Add_film extends HttpServlet {
 				String pwd="root";
 				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
 				PreparedStatement statement=null;
-				
 				Film film = new Film();
 				film.setTitolo(request.getParameter("titolo"));
 				film.setData(request.getParameter("giorno"));
 				film.setOra_Init(request.getParameter("ora_init"));
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setSala(request.getParameter("sala"));
-				film.setDurata(request.getParameter("durata"));
 				
 				Part file= request.getPart("file");
 				String filename= file.getSubmittedFileName();
@@ -56,18 +44,15 @@ public class Add_film extends HttpServlet {
 				film.setFileName(filename);
 				film.setPath(savePath);
 				System.out.println(savePath);
-				
-				
-				String sql="insert into films (titolo,giorno,ora_init,ora_fine,durata,sala,filename,file_path) values (?,?,?,?,?,?,?,?);";
+				String sql="insert into films (titolo,giorno,ora_init,ora_fine,sala,filename,file_path) values (?,?,?,?,?,?,?);";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1,film.getTitolo());
 				statement.setString(2, film.getData());
 				statement.setString(3,film.getOra_Init());
 				statement.setString(4,film.getOra_Fine());
-				statement.setString(5, film.getDurata());
-				statement.setString(6, film.getSala());
-				statement.setString(7, film.getFileName());
-				statement.setString(8, film.getPath());
+				statement.setString(5, film.getSala());
+				statement.setString(6, film.getFileName());
+				statement.setString(7, film.getPath());
 				statement.executeUpdate();
 				
 			}

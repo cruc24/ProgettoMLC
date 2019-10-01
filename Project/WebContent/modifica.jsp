@@ -16,10 +16,10 @@
 	ArrayList<Film> f= new ArrayList<>();
 	f=(ArrayList<Film>) request.getAttribute("film");
 	Iterator <Film> i= f.iterator();
-	String errore=(String)request.getAttribute("errore");
+	
 	%>
 <div class="content">
-	<table class="tabella">
+	<table id="tabella" class="tabella">
 		<tr>
 			<th>Titolo</th>
 			<th>Giorno</th>
@@ -43,10 +43,6 @@
 		}%>
 	</table>
 </div>
-	<%
-			if(errore != null)
-				out.println("<p style=color:red;>" + errore + "</p>");
-	%>
 	<div id="alter_form" style="display:none;">
 		<form action="http://localhost:8080/Project/Modifica_Film" method="post" >
 		<h5>Modifica Film </h5>
@@ -60,7 +56,7 @@
 				<input type="radio" name="sala" value="Sala_2" id="sala"> Sala 2 <br />
 				<input type="radio" name="sala" value="Sala_3" id="sala"> Sala 3 <br />
 				<input type="radio" name="sala" value="Sala_4" id="sala"> Sala 4 <br />
-				<input type="submit" value="Modifica"><br /> <br />
+	    <input type="submit" value="Modifica"><br /> <br />
 		<script>
 		var table = document.getElementById('tabella');
                 for(var i = 1; i < table.rows.length; i++)
@@ -73,7 +69,7 @@
                          document.getElementById("ora_init").value = this.cells[3].innerHTML;
                          document.getElementById("ora_fin").value = this.cells[4].innerHTML;
                          
-                         var radios = document.getElementsById("sala");
+                         var radios = document.getElementsByName("sala");
                          for (var j = 0; j < radios.length; j++) {
                              if (radios[j].value == this.cells[5].innerHTML) {
                                  radios[j].checked = true;
@@ -83,6 +79,5 @@
         </script>
 		</form>
 	</div>
-  		<button onClick="document.location.href='/Project/home.jsp'" >Indietro</button><br>
 </body>
 </html>

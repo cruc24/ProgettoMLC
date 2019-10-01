@@ -95,7 +95,6 @@ public class Elimina_Film extends HttpServlet {
 				else
 				{
 				film.setId(request.getParameter("id"));
-				System.out.println(request.getParameter("id"));
 				String sql="delete from films where id=?";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1,film.getId());

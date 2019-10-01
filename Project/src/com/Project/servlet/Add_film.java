@@ -38,12 +38,11 @@ public class Add_film extends HttpServlet {
 				
 				Part file= request.getPart("file");
 				String filename= file.getSubmittedFileName();
-				String savePath= "C:\\Users\\Luca\\git\\repository\\Project\\WebContent\\Locandine_film"+ File.separatorChar+filename;
-				//File directory= new File(savePath);
-				file.write(savePath+File.separatorChar);
+				String savePath= this.getServletContext().getRealPath("/Locandine_film")+ File.separatorChar;
+				file.write(savePath+filename);
 				film.setFileName(filename);
 				film.setPath(savePath);
-				System.out.println(savePath);
+				System.out.println("necessario:"+savePath);
 				String sql="insert into films (titolo,giorno,ora_init,ora_fine,sala,filename,file_path) values (?,?,?,?,?,?,?);";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1,film.getTitolo());

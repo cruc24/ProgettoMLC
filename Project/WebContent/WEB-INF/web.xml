@@ -9,13 +9,4 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet-mapping>
-        <servlet-name>redteam</servlet-name>
-        <url-pattern>/red/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>blueteam</servlet-name>
-        <url-pattern>/blue/*</url-pattern>
-    </servlet-mapping>
 </web-app>

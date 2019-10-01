@@ -15,5 +15,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Luca/Downloads/jar_files/gson-2.8.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

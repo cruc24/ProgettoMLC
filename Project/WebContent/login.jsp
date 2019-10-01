@@ -9,7 +9,7 @@
 <script src="animazioni.js"></script>
 <link rel="stylesheet" type="text/css" href="./projectStyle.css">
 </head>
-<body style="background-image:url('images/sala-cinema.png');background-repeat: no-repeat;	background-size: cover;	background-position: center;max-width:100%;max-height:100%;">
+<body style="background-image:url('images/sala2.png');background-repeat: no-repeat;	background-size: cover;	background-position: center;max-width:100%;max-height:100%;">
 	<img src="/Project/images/intro.gif"  id="intro">
 	<div id="login">
 	<form action="http://localhost:8080/Project/Access" method="POST">

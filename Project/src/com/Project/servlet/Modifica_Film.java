@@ -83,15 +83,14 @@ public class Modifica_Film extends HttpServlet {
 				}
 				else
 				{
-				String sql="update films set titolo=?,giorno=?,ora_init=?,ora_fine=?, durata=?,sala=? where id=? ;";
+				String sql="update films set titolo=?,giorno=?,ora_init=?,ora_fine=?,sala=? where id=? ;";
 				statement=connection.prepareStatement(sql);
-				statement.setString(7, film.getId());
 				statement.setString(1, film.getTitolo());
 				statement.setString(2, film.getData());
 				statement.setString(3, film.getOra_Init());
 				statement.setString(4, film.getOra_Fine());
-				statement.setString(6, film.getSala());		
-				statement.setString(7, film.getId());
+				statement.setString(5, film.getSala());		
+				statement.setString(6, film.getId());
 				statement.executeUpdate();
 				jsp_url="/home.jsp";
 				}

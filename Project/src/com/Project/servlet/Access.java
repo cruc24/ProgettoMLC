@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -45,8 +46,11 @@ public class Access extends HttpServlet {
 				statement.setString(2, utente.getPassword());
 				ResultSet rs= statement.executeQuery();
 				String messaggio="Login/Password errati.";
+				String username= utente.getUserName();
 				if(rs.next())
 					{
+				    	HttpSession session = request.getSession();
+				    	session.setAttribute("username", username);
 				        jsp_url= "/home.jsp";
 					}
 				else

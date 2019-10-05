@@ -5,44 +5,58 @@
 <head>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./projectStyle.css">
+<script src="jquery-3.4.1.min.js"></script>
 <title>Insert title here</title>
+<style>
+	#alter_form{
+	z-index:10;
+	text-align:center;
+	width:100%;
+	heigth:100%;
+	background:#c0c0c0;
+	position: relative;
+	background-size:cover;
+	margin:0 auto;
+	top:0;
+	}
+</style>
+<script>
+$(document).ready(function(){
+$.get("Visualizza_Film",function(data){
+	var flightsPerPage = 5;
+	var secondsPerPage = 3;
+	var newDataAvailable = false;
+	var currentPage=-1;
+	var pages;
+	var flights;
+	
+	var s="<th>Id</th><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th>";
+	for(i in data.films)
+		{
+			s+="<tr>";
+			s+="<td>"+data.films[i].id+"</td>";
+			s+="<td>"+data.films[i].titolo+"</td>";
+			s+="<td>"+data.films[i].data+"</td>";
+			s+="<td>"+data.films[i].ora_init+"</td>";
+			s+="<td>"+data.films[i].ora_fine+"</td>";
+			s+="<td>"+data.films[i].sala_cinema+"</td>";
+			s+="<td>" + "<button onclick='show()' class='modifica'> modifica</button>"+"</td>";
+			s+="</tr>"
+		}
+	document.getElementById("tab").innerHTML=s;
+	
+	});
+});
+</script>
 </head>
 <body>
 <div class="header">
 	<h1 class="title">MODIFICA FILMS</h1>
 	<button class="button_header" onClick="document.location.href='/Project/home.jsp'" >Indietro</button>
 </div>
-	<% 
-	ArrayList<Film> f= new ArrayList<>();
-	f=(ArrayList<Film>) request.getAttribute("film");
-	Iterator <Film> i= f.iterator();
-	
-	%>
 <div class="content">
-	<table id="tabella" class="tabella">
-		<tr>
-			<th>Titolo</th>
-			<th>Giorno</th>
-			<th>Ora_init</th>
-			<th>Ora_fine</th>
-			<th>Sala</th>
-		</tr>
-	<%	while(i.hasNext())
-		{
-		  Film film= new Film();
-		  film=i.next();
-		  out.println("<tr>");
-		  out.println("<td style='display:none;'>" + film.getId() + "</td>");
-		  out.println("<td>" + film.getTitolo() + "</td>");
-	      out.println("<td>" + film.getData() + "</td>");
-	      out.println("<td>" + film.getOra_Init() + "</td>");
-	      out.println("<td>" + film.getOra_Fine() + "</td>");
-	      out.println("<td>" + film.getSala() + "</td>");
-	      out.print("<td>" + "<button onclick=document.getElementById('alter_form').style.display='block' style='width:auto;'>"+"modifica</button>"+"</td>");
-	      out.println("</tr>");
-		}%>
+	<table id='tab' class='tabella'>
 	</table>
-</div>
 	<div id="alter_form" style="display:none;">
 		<form action="http://localhost:8080/Project/Modifica_Film" method="post" >
 		<h5>Modifica Film </h5>
@@ -58,7 +72,12 @@
 				<input type="radio" name="sala" value="Sala_4" id="sala"> Sala 4 <br />
 	    <input type="submit" value="Modifica"><br /> <br />
 		<script>
-		var table = document.getElementById('tabella');
+		function show(){
+			$(document).ready(function(){
+				$(".modifica").click(function(){
+					$("#alter_form").css('display','block');
+					$("#tab").css('display','none');
+			var table = document.getElementById('tab');
                 for(var i = 1; i < table.rows.length; i++)
                 {
                     table.rows[i].onclick = function()
@@ -68,7 +87,6 @@
                          document.getElementById("giorno").value = this.cells[2].innerHTML;
                          document.getElementById("ora_init").value = this.cells[3].innerHTML;
                          document.getElementById("ora_fin").value = this.cells[4].innerHTML;
-                         
                          var radios = document.getElementsByName("sala");
                          for (var j = 0; j < radios.length; j++) {
                              if (radios[j].value == this.cells[5].innerHTML) {
@@ -76,8 +94,18 @@
                                  break;}}
                     }
                 }
+				});
+			});
+		}
+		$(document).ready(function(){
+			$("form").click(function(){
+				$("#tab").css('display','block');
+				$("#alter_form").css('display','none');
+		});
+	});
         </script>
 		</form>
 	</div>
+</div>
 </body>
 </html>

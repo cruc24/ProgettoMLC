@@ -49,7 +49,7 @@ public class Access extends HttpServlet {
 				String username= utente.getUserName();
 				if(rs.next())
 					{
-				    	HttpSession session = request.getSession();
+				    	HttpSession session = request.getSession(true);
 				    	session.setAttribute("username", username);
 				        jsp_url= "/home.jsp";
 					}

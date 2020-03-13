@@ -1,4 +1,4 @@
-package com.Project.servlet;
+				package com.Project.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +26,7 @@ import com.Project.beans.*;
 public class Modifica_Film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsp_url="";
+		//String jsp_url="";
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
@@ -47,7 +47,7 @@ public class Modifica_Film extends HttpServlet {
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setSala(request.getParameter("sala"));
 				String errore="";
-				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film) || !c.ControlData(film))
+				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film) || !c.ControlData(film) || !c.Controlinsert(film))
 				{
 					PreparedStatement st=null;
 					String sql="select * from films";
@@ -77,7 +77,8 @@ public class Modifica_Film extends HttpServlet {
 						errore+="orario/data non valido.\n";
 						request.setAttribute("errore", errore);
 					}
-					jsp_url="/modifica.jsp";
+					//jsp_url="/modifica.jsp";
+					System.out.println(errore);
 					request.setAttribute("errore", errore);
 					request.setAttribute("film", f);
 				}
@@ -90,13 +91,18 @@ public class Modifica_Film extends HttpServlet {
 				statement.setString(3, film.getOra_Init());
 				statement.setString(4, film.getOra_Fine());
 				statement.setString(5, film.getSala());		
+				statement.setString(6, film.getPath());
+				statement.setString(7, film.getFileName());
 				statement.setString(6, film.getId());
 				statement.executeUpdate();
-				jsp_url="/home.jsp";
+				//jsp_url="/home.jsp";
 				}
-				RequestDispatcher rd = getServletContext().getRequestDispatcher(jsp_url);
-				rd.forward(request, response);
-				}
+				
+				//RequestDispatcher rd = getServletContext().getRequestDispatcher("/home_definitiva.jsp");
+				//rd.forward(request, response);
+				
+				response.sendRedirect("home_definitiva.jsp");
+			}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");
 				} catch (ParseException e) {

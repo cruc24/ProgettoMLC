@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.Project.beans.Controllo;
 import com.Project.beans.Database;
 import com.Project.beans.Film;
 
@@ -32,10 +33,25 @@ public class Add_film extends HttpServlet {
 		Part file= request.getPart("file");
 		String filename= file.getSubmittedFileName();
 		String savePath= this.getServletContext().getRealPath("/Locandine_film")+ File.separatorChar;
-		file.write(savePath+filename);
 		film.setFileName(filename);
 		film.setPath(savePath);
-		db.Addfilm(film);
+		Controllo c= new Controllo();
+		try {
+			System.out.println(c.Controlinsert(film));
+			System.out.println(!c.Occupato(film));
+			if( c.Controlinsert(film) && !c.Occupato(film) )
+			{
+			db.Addfilm(film);
+			file.write(savePath+filename);// altrimenti mi da errore di accesso negato perchè non scrivo niente
+			film.setFileName(filename);
+			film.setPath(savePath);
+			}
+			else
+			System.out.println("un po essere");
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// fare controlli dei valori inseriti
 	}	
 

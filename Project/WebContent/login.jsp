@@ -9,9 +9,11 @@
 <script src="animazioni.js"></script>
 <link rel="stylesheet" type="text/css" href="./projectStyle.css">
 </head>
-<body style="background-image:url('images/sala2.png');background-repeat: no-repeat;	background-size: cover;	background-position: center;max-width:100%;max-height:100%;">
+<body style="background-image:url('images/sala2.png');background-repeat: no-repeat;	background-size: cover;	max-width:100%;max-height:100%;">
 	<img src="/Project/images/intro.gif"  id="intro">
-	<div id="login">
+	<div id="login" style="'display':'none';">
+	<br>
+	<br>
 	<form action="http://localhost:8080/Project/Access" method="POST">
 	<h1 class="title">C I N E M A</h1>
 	Username: <input type="text" name="username" required><br /><br />
@@ -27,7 +29,7 @@
 		}
 	%>
 	<p>	Se non sei ancora registrato, fallo adesso.</p>
-	<button onclick="document.location.href='registrazione.html'">Registrati</button>
+	<button onclick="document.location.href='registrazione.jsp'">Registrati</button>
 	</div>
 </body>
 </html>

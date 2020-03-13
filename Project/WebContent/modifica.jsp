@@ -11,8 +11,8 @@
 	#alter_form{
 	z-index:10;
 	text-align:center;
-	width:100%;
-	heigth:100%;
+	width:50%;
+	heigth:50%;
 	background:#c0c0c0;
 	position: relative;
 	background-size:cover;
@@ -23,13 +23,6 @@
 <script>
 $(document).ready(function(){
 $.get("Visualizza_Film",function(data){
-	var flightsPerPage = 5;
-	var secondsPerPage = 3;
-	var newDataAvailable = false;
-	var currentPage=-1;
-	var pages;
-	var flights;
-	
 	var s="<th>Id</th><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th>";
 	for(i in data.films)
 		{
@@ -40,11 +33,10 @@ $.get("Visualizza_Film",function(data){
 			s+="<td>"+data.films[i].ora_init+"</td>";
 			s+="<td>"+data.films[i].ora_fine+"</td>";
 			s+="<td>"+data.films[i].sala_cinema+"</td>";
-			s+="<td>" + "<button onclick='show()' class='modifica'> modifica</button>"+"</td>";
+			s+="<td>" + "<button onclick='show_table()' id='modifica'> modifica</button>"+"</td>";
 			s+="</tr>"
 		}
 	document.getElementById("tab").innerHTML=s;
-	
 	});
 });
 </script>
@@ -70,11 +62,12 @@ $.get("Visualizza_Film",function(data){
 				<input type="radio" name="sala" value="Sala_2" id="sala"> Sala 2 <br />
 				<input type="radio" name="sala" value="Sala_3" id="sala"> Sala 3 <br />
 				<input type="radio" name="sala" value="Sala_4" id="sala"> Sala 4 <br />
+				<button class="close">Close</button>
 	    <input type="submit" value="Modifica"><br /> <br />
 		<script>
-		function show(){
+		function show_table(){
 			$(document).ready(function(){
-				$(".modifica").click(function(){
+				$("#modifica").click(function(){
 					$("#alter_form").css('display','block');
 					$("#tab").css('display','none');
 			var table = document.getElementById('tab');

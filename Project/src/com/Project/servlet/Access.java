@@ -51,15 +51,16 @@ public class Access extends HttpServlet {
 					{
 				    	HttpSession session = request.getSession(true);
 				    	session.setAttribute("username", username);
-				        jsp_url= "/home.jsp";
+				        response.sendRedirect("home_definitiva.jsp");
 					}
 				else
 					{
 					    request.setAttribute("messaggio", messaggio);
 					    jsp_url="/login.jsp";
+					    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
+				        dispatcher.forward(request, response);   
 					}
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
-		        dispatcher.forward(request, response);    
+				 
 			}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");

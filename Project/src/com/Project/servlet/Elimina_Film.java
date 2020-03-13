@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.Project.beans.Controllo;
+import com.Project.beans.Database;
 import com.Project.beans.Film;
 
 /**
@@ -37,15 +38,41 @@ public class Elimina_Film extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			response.setContentType("text/html");
+			PrintWriter out=response.getWriter();
+				Film film = new Film();
+				film.setId(request.getParameter("id"));
+				film.setTitolo(request.getParameter("titolo"));
+				film.setData(request.getParameter("giorno"));
+				film.setOra_Init(request.getParameter("ora_init"));
+				film.setOra_Fine(request.getParameter("ora_fine"));
+				film.setSala(request.getParameter("sala"));
+				Controllo c= new Controllo();
+				String errore="";
+				String jsp_url="";
+				System.out.println(c.inCorso(film));
+				if(c.inCorso(film))
+				{
+					errore+="film in esecuzione impossibile modificare.";
+					//jsp_url="/elimina.jsp";
+					request.setAttribute("errore", errore);
+				}
+				else
+				{
+				Database db= new Database();
+				db.eliminaFilm(film);
+				//jsp_url="/home.jsp";
+				}
+				response.sendRedirect("home_definitiva.jsp");
+				//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
+		        //dispatcher.forward(request, response);
+}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();

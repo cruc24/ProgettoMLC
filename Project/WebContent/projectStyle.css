@@ -1,0 +1,152 @@
+@charset "ISO-8859-1";
+body{
+	/*background-image: url('images/sfondo3.jpg'); */
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color:#e4e4e4;
+	overflow: hidden;
+	width:100%;
+	height:100%;
+
+}
+.header{
+	top: 0;
+	left:0;
+	background-color: #000000;
+	z-index:1000;
+	height:15%;
+	width:100%;
+	position:absolute;
+	padding:0;
+	border: 2px solid gold;
+}
+.title{
+	color:white;
+	text-shadow: 2px 2px 4px #c0c0c0;
+	text-align:center;
+	font:Cocon;
+	font-size:30pt;
+}
+.content{
+	margin-top:100px;
+	min-width:100%;
+	min-height:100%;
+	font-size:18pt;
+	padding: 2%;
+	font-family:'Dancing Script',serif;
+	font-style:italic;
+	z-index:0;
+	
+}
+.button_header{
+	right:0;
+	bottom:0;
+	position:absolute;
+	background-color:#000000;
+	color:white;
+	padding: 40px 30 px;
+}
+.button_header:hover{
+	background-color: #ffffff;
+	color:black;
+}
+#gestionesale{
+	background-image: "";
+	 height:auto;
+	 width:auto;
+	 border:1px,solid,black;
+}
+#login {
+	margin:70px 100px 100px 380px;
+	text-align:center;
+	background: "";
+	width:600px;
+	heigth:600px;
+	display:none;
+}
+#intro{
+	margin:30px 100px 100px 400px;
+}
+#togglepwd{
+	width:13px;
+	height:13px;
+}
+#msg{
+	color:red;
+	 border:1px,solid,red;
+}
+.tabella{
+	font:Yasashii;
+	font-size: 18px;
+	border-radius: 5%;
+	border-spacing: 2px;
+	margin-top:0%;
+	text-align: center;
+	border: 1px black solid;
+	background-color:#ffffff;
+	width:100%;
+	height:100%;
+	padding:1%;
+	table-layout:fixed;
+	position:relative;
+}
+.tabella th {
+background: gold;
+color: black;
+text-shadow: 0 1px 1px #c5a770;
+padding: 3% 4%;
+}
+.tabella th, .tabella td {
+border-style: solid;
+border-width: 0 1px 1px 0;
+border-color: white;
+}
+.tabella th:first-child {
+border-top-left-radius: 10%;
+}
+.tabella th:last-child {
+border-top-right-radius: 10%;
+border-right: none;
+}
+.tabella td {
+padding: 0.5% 2% ;
+background: #ffffff;
+text-align:center;
+table-layout:fixed;
+}
+.tabella tr:hover{
+	background:#000000;
+}
+.tabella tr:last-child td:first-child {
+border-radius: 0 0 0 5%;
+}
+.tabella tr:last-child td:last-child {
+border-radius: 0 0 5% 0;
+}
+.tabella tr,  .tabella td:last-child {
+border-right: none;
+}
+.button
+{
+	border-radius:15px;
+	border:1px solid #e8c500;
+	display:inline-block;
+	color:#000000;
+	font-family:Horley Old Style;
+	font-size:20px;
+	padding:7px 25px;
+	text-shadow:0px 1px 0px #c0c0c0;
+	box-shadow: 3px 4px 0px 1px #899599;
+	background-color:gold;
+	width:200px;
+	margin:0 auto;
+	
+}
+.button:hover {
+	background-color:#e8c500;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
+

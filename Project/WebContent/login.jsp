@@ -14,7 +14,7 @@
 	<div id="login" style="'display':'none';">
 	<br>
 	<br>
-	<form action="http://localhost:8080/Project/Access" method="POST">
+	<form action="http://localhost:8080/Project/Access" method="GET">
 	<h1 class="title">C I N E M A</h1>
 	Username: <input type="text" name="username" required><br /><br />
 	Password: <input type="password" name="password" id="password" required>

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Access")
 public class Access extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
@@ -49,9 +49,9 @@ public class Access extends HttpServlet {
 				String username= utente.getUserName();
 				if(rs.next())
 					{
+						response.sendRedirect("home_definitiva.jsp");
 				    	HttpSession session = request.getSession(true);
 				    	session.setAttribute("username", username);
-				        response.sendRedirect("home_definitiva.jsp");
 					}
 				else
 					{

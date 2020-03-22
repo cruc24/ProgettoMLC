@@ -1,10 +1,7 @@
-/*$(document).ready(function(){
-		mostra();
-	});*/
-function hide_table(){
-		 $("#alter_form").css('display','none');
-		 $("#tab").css('display','block');
-	 }
+	function hide_table(){
+			 $("#alter_form").css('display','none');
+			 $("#tab").css('display','block');
+		 }
 	function show_table(){
 	$(document).ready(function(){
 		$(".press").click(function(){
@@ -30,7 +27,42 @@ function hide_table(){
 		});
 	});
 }
+	$(document).ready(function(){
+		$(".div_table").hide();
+		$(".div_add").hide();
+	})
 
+	var check= false;
+	function show(){
+			$(".div_table").toggle();
+			if(!check){
+				check=true;
+				$.get("Visualizza_Film",function(data){
+				var table = document.getElementById("tabella").getElementsByTagName("tbody")[0];
+				console.log(data.films)
+				for(i=0;i<data.films.length;i++)
+				{
+					var row = table.insertRow(i);
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					var cell4 = row.insertCell(3);
+					var cell5 = row.insertCell(4);
+					var cell6 = row.insertCell(5);
+					var cell7 = row.insertCell(6);
+					cell1.innerHTML = data.films[i].titolo;
+					cell2.innerHTML = data.films[i].data;
+					cell3.innerHTML = data.films[i].ora_init;
+					cell4.innerHTML = data.films[i].ora_fine;
+					cell5.innerHTML = data.films[i].sala_cinema;
+					cell6.innerHTML = " ";
+					cell7.innerHTML = "<img src='"+"./Locandine_film/"+data.films[i].filename+"'width='50' heigth='50'>";
+				}
+			
+		}); 
+	   }
+	}
+	
 	function mostra(){
 	$.get("Visualizza_Film",function(data){
 		var s="";
@@ -64,10 +96,10 @@ function hide_table(){
 		document.getElementById("sub-content").innerHTML=s;
 		//setInterval(show(),60000);
 		});
-}
+		}
 
-function modifica(){
-		$.get("Visualizza_Film",function(data){
+		function modifica(){
+			$.get("Visualizza_Film",function(data){
 			var s="";
 			s=" <table class='tabella' id='tab'><th>id</th><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>action</th>";
 			for(i in data.films)
@@ -99,9 +131,10 @@ function modifica(){
 						s+="<input type='radio' name='sala' value='Sala_3' id='sala'> Sala 3 <br />";
 						s+="<input type='radio' name='sala' value='Sala_4' id='sala'> Sala 4 <br />";
 			    s+="<input type='submit' value='press'><br /> <br />";
+			    s+="</form></div>";
 			    document.getElementById("sub-content").innerHTML=s;
 		});
-	}
+		}
 	 
 	 function elimina(){
 		 $.get("Visualizza_Film",function(data){
@@ -135,14 +168,15 @@ function modifica(){
 							s+="<input type='radio' name='sala' value='Sala_4' id='sala'> Sala 4 <br />";
 							s+="<button onclick='elimina()'>Close</button>";
 				    s+="<input type='submit' value='Elimina'><br /> <br />";
+				    s+="</form></div>";
 				    document.getElementById("sub-content").innerHTML=s;
 			});
 		}
-	/* 
-	 function logout(){
-		 $.get("Logout",function(){alert("disconnetto")});
-	 }
-	 */
+	 
+	function aggiungi(){
+			$(".div_add").toggle();
+		}
+	
 	$(document).ready(function() {
 	    $("#logout").click(function() {
 	    	 $.get("Logout",function(){
@@ -150,13 +184,12 @@ function modifica(){
 	    		location.reload();
 	    	 });
 	    });});  	
-	    	
-	    	
-	    	
+	       	
 	 function sleep(s){
 		  var now = new Date().getTime();
 		  while(new Date().getTime() < now + (s*1000)){ /* non faccio niente */ } 
-		}
+	 }
+	 
 	 function sala(numsala){
 		 var vsala= 'Sala_'+ numsala;
 		 console.log(vsala);
@@ -185,12 +218,18 @@ function modifica(){
 						}
 		 });
 	}
-$(document).ready(function() {
-    var interval = setInterval(function() {
-        var momentNow = new Date();
-        week= ['Lun','Mar','Mer','Gio','Ven','Sab','Dom']
-        var time = week[momentNow.getDay()-1]+","+ momentNow.getDate()+"/"+momentNow.getMonth()+1+"/"+momentNow.getFullYear()+"\t"
-        time= time+momentNow.getHours()+":"+momentNow.getMinutes()+":"+momentNow.getSeconds()
-        $('#time').html(time);
-}, 1000);
-});
+	 
+	function adjustTime(time){
+		if(time >= 0 && time <= 9)
+			time= "0"+String(time);
+			return time;
+	}
+	$(document).ready(function() {
+	    var interval = setInterval(function() {
+	        var momentNow = new Date();
+	        week= ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+	        var time = week[momentNow.getDay()]+","+ momentNow.getDate()+"/"+momentNow.getMonth()+1+"/"+momentNow.getFullYear()+"\t";
+	        time= time+adjustTime(momentNow.getHours())+":"+adjustTime(momentNow.getMinutes())+":"+adjustTime(momentNow.getSeconds());
+	        $('#time').html(time);
+	}, 1000);
+	});

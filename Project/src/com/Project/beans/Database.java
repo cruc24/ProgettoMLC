@@ -17,11 +17,24 @@ import javax.servlet.http.Part;
 
 public class Database {
 	
+	String user="root";
+	String pwd="root";
+	String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
+	
+	public Database() throws ClassNotFoundException
+	{
+		Class.forName("com.mysql.cj.jdbc.Driver"); 
+		
+		
+	}
+	
+	
+	
 	public List<Film> filmList() throws ClassNotFoundException, SQLException{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
-		String user="root";
-		String pwd="root";
+		//Class.forName("com.mysql.cj.jdbc.Driver"); 
+		//String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
+		//String user="root";
+		//String pwd="root";
 		Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
 		Statement statement=null;
 		List<Film> f= new ArrayList<>();

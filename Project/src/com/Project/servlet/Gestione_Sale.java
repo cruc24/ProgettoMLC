@@ -34,24 +34,24 @@ public class Gestione_Sale extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			response.setContentType("application/json;charset=UTF-8");
-				Database db= new Database();
-				String sala= (String)request.getParameter("sala");
-				System.out.println(sala);
-				JsonConverter converter = new JsonConverter();
-		        ServletOutputStream out = response.getOutputStream();
-		        String output=null;
-		        try {
+				Database db;
+				try{
+					db = new Database();
+					String sala= (String)request.getParameter("sala");
+					System.out.println(sala);
+					JsonConverter converter = new JsonConverter();
+			        ServletOutputStream out = response.getOutputStream();
+			        String output=null;
 					if (converter.convertToJson(db.filmSala(sala)) != null)
-					output = converter.convertToJson(db.filmSala(sala));
+						output = converter.convertToJson(db.filmSala(sala));
 					else
-					output = "Non ci sono film in programma nella" + sala + " oggi.";
-				} catch (ClassNotFoundException | SQLException e) {
+						output = "Non ci sono film in programma nella" + sala + " oggi.";
+						out.println(output);
+						System.out.println(output);
+					} catch (ClassNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        out.println(output);
-				System.out.println(output);
-				
+						e.printStackTrace();
+					}	   		
 	}  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {

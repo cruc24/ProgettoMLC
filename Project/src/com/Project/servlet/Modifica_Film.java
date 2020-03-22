@@ -47,7 +47,7 @@ public class Modifica_Film extends HttpServlet {
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setSala(request.getParameter("sala"));
 				String errore="";
-				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film) || !c.ControlData(film) || !c.Controlinsert(film))
+				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film) || !c.ControlData(film) || !c.controlInsert(film))
 				{
 					PreparedStatement st=null;
 					String sql="select * from films";

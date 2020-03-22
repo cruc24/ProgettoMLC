@@ -60,8 +60,14 @@ public class Elimina_Film extends HttpServlet {
 				}
 				else
 				{
-				Database db= new Database();
-				db.eliminaFilm(film);
+				Database db;
+				try {
+					db = new Database();
+					db.eliminaFilm(film);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//jsp_url="/home.jsp";
 				}
 				response.sendRedirect("home_definitiva.jsp");

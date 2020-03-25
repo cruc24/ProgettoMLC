@@ -34,6 +34,7 @@ $(document).ready(function(){
 });
 // rendo i div toggle
 
+/* stampa quale elemento ho clickato
 $(document).ready(function(){
 	$("ul").children("li").each(function(){
 		$(this).click(function(){
@@ -41,7 +42,7 @@ $(document).ready(function(){
 		});
 	});
 });
-
+*/
 
 
 

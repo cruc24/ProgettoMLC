@@ -2,6 +2,7 @@
 			 $("#alter_form").css('display','none');
 			 $("#tab").css('display','block');
 		 }
+
 	function show_table(){
 	$(document).ready(function(){
 		$(".press").click(function(){
@@ -22,51 +23,20 @@
                   if (radios[j].value == this.cells[5].innerHTML) {
                       radios[j].checked = true;
                       break;}}
-         }
-     }
+				}
+			}
 		});
 	});
-}
+	}
 	$(document).ready(function(){
 		$(".div_table").hide();
 		$(".div_add").hide();
 	})
 
-	var check= false;
-	function show(){
-			$(".div_table").toggle();
-			if(!check){
-				check=true;
-				$.get("Visualizza_Film",function(data){
-				var table = document.getElementById("tabella").getElementsByTagName("tbody")[0];
-				console.log(data.films)
-				for(i=0;i<data.films.length;i++)
-				{
-					var row = table.insertRow(i);
-					var cell1 = row.insertCell(0);
-					var cell2 = row.insertCell(1);
-					var cell3 = row.insertCell(2);
-					var cell4 = row.insertCell(3);
-					var cell5 = row.insertCell(4);
-					var cell6 = row.insertCell(5);
-					var cell7 = row.insertCell(6);
-					cell1.innerHTML = data.films[i].titolo;
-					cell2.innerHTML = data.films[i].data;
-					cell3.innerHTML = data.films[i].ora_init;
-					cell4.innerHTML = data.films[i].ora_fine;
-					cell5.innerHTML = data.films[i].sala_cinema;
-					cell6.innerHTML = " ";
-					cell7.innerHTML = "<img src='"+"./Locandine_film/"+data.films[i].filename+"'width='50' heigth='50'>";
-				}
-			
-		}); 
-	   }
-	}
-	
-	function mostra(){
+	/* function mostra(){
 	$.get("Visualizza_Film",function(data){
 		var s="";
-		s=" <table class='tabella'><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>status</th>";
+		s=" <table class='tabella' id='tab'><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>status</th>";
 		for(i in data.films)
 			{
 				s+="<tr>";
@@ -97,7 +67,7 @@
 		//setInterval(show(),60000);
 		});
 		}
-
+	*/
 		function modifica(){
 			$.get("Visualizza_Film",function(data){
 			var s="";
@@ -172,12 +142,8 @@
 				    document.getElementById("sub-content").innerHTML=s;
 			});
 		}
-	 
-	function aggiungi(){
-			$(".div_add").toggle();
-		}
 	
-	$(document).ready(function() {
+	 $(document).ready(function() {
 	    $("#logout").click(function() {
 	    	 $.get("Logout",function(){
 	    		alert("disconnessione");
@@ -205,8 +171,7 @@
 					s+="<p>"+data.films[i].ora_init+"/"+data.films[i].ora_fine+"</p>";
 					s+="</div>";
 				}
-			$("#sub-content").html(s);
-					
+			$("#sub-content").html(s);		
 			var i=0;
 						while(i<x)
 						{
@@ -219,17 +184,28 @@
 		 });
 	}
 	 
-	function adjustTime(time){
-		if(time >= 0 && time <= 9)
-			time= "0"+String(time);
-			return time;
-	}
-	$(document).ready(function() {
-	    var interval = setInterval(function() {
-	        var momentNow = new Date();
-	        week= ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
-	        var time = week[momentNow.getDay()]+","+ momentNow.getDate()+"/"+momentNow.getMonth()+1+"/"+momentNow.getFullYear()+"\t";
-	        time= time+adjustTime(momentNow.getHours())+":"+adjustTime(momentNow.getMinutes())+":"+adjustTime(momentNow.getSeconds());
-	        $('#time').html(time);
-	}, 1000);
-	});
+	 function aggiungi(){
+			var s="";
+			s="<div class='div_add' >";	
+			s+="<form action='http://localhost:8080/Project/Add_film' method='POST' enctype='multipart/form-data'>";
+			s+="<h2>Aggiungi Film </h2>";
+			s+="<label>Titolo film:</label>";
+			s+="<input type='text' name='titolo'> <br />";
+			s+="<label>Data riproduzione film:</label>";
+			s+="<input type='date' name='giorno' id='giorno'> <br>";
+			s+="<label>Orario inizio film:</label>";
+			s+="<input type='time' name='ora_init' id='ora_init'> <br />";
+			s+="<label>Orario termine film:</label>";
+			s+="<input type='time' name='ora_fine' id='ora_fine'><br />";
+			s+="<label>Sala proiezione del film:</label><br />";
+			s+="<input type='radio' name='sala' value='Sala_1' checked> Sala 1 <br />";
+			s+="<input type='radio' name='sala' value='Sala_2'> Sala 2 <br />";
+			s+="<input type='radio' name='sala' value='Sala_3'> Sala 3 <br />";
+			s+="<input type='radio' name='sala' value='Sala_4'> Sala 4 <br />";
+			s+="<label>Locandina film:</label>";
+			s+="<input type='file' name='file' id='file'> <br /><br />";
+			s+="<input type='submit' value='Aggiungi'>";
+			s+="</form>";
+			s+="</div>";
+			document.getElementById("sub-content").innerHTML=s;
+		}

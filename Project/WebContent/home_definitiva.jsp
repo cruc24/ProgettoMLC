@@ -9,6 +9,78 @@
 <script src="jquery-3.4.1.min.js"></script>
 <script src="functions.js" type="text/javascript"></script>
 <script src="animazioni.js" type="text/javascript"></script>
+<script src="utility.js" type="text/javascript"></script>
+<script type="text/javascript">
+var filmsPerPage = 5;
+var secondsPerPage = 3;
+var newDataAvailable = false;
+var currentPage=-1;
+var pages;
+var films;
+
+function mostra() {
+	startLoadData(); // Load new XML file every 60 seconds
+	startDisplay(); // Display current data
+}
+
+//
+function startLoadData(){
+	loadNewData();
+	newDataAvailable = true;
+	setTimeout("startLoadData()", 60000);
+}
+
+function startDisplay(){
+	if(newDataAvailable){
+		createNewPages();
+		currentPage = -1;
+		newDataAvailable = false;
+	}
+		
+	currentPage++;
+	currentPage = currentPage % pages.length;
+	$("#sub-content").html(pages[currentPage]);
+
+	setTimeout("startDisplay()", secondsPerPage*1000);
+}
+
+function createNewPages(){
+	pages = new Array();
+	console.log(films.length)
+	var numPages = Math.ceil(films.length/filmsPerPage);
+	for(var p = 0; p < numPages; p++){
+		pages.push(createFilmsPage(p));			
+	}
+}
+
+function createFilmsPage(n){
+	console.log(films);
+	var s="";
+	s=" <table class='tabella' id='tab'><th>id</th><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>action</th>";
+	for(i in films)
+		{
+			s+="<tr>";
+			s+="<td>"+films[i].id+"</td>";
+			s+="<td>"+films[i].titolo+"</td>";
+			s+="<td>"+films[i].data+"</td>";
+			s+="<td>"+films[i].ora_init+"</td>";
+			s+="<td>"+films[i].ora_fine+"</td>";
+			s+="<td>"+films[i].sala_cinema+"</td>";
+			s+="</tr>"
+		}
+	s+="</table>";
+	return s;
+}
+
+
+
+function loadNewData(){
+	$.get("Visualizza_Film",function(data){
+		films = data;
+	});
+}
+
+</script>
 </head>
 <body>
 <%
@@ -27,7 +99,7 @@ if(username == null)
 		<p id="time">Ora</p>
 		<hr/>
 		<ul style="padding:0;margin:10;display:block;list-style-type:none;">
-		<li onclick="show()"> Film </li>
+		<li onclick="mostra()" id="film_mostra"> Film </li>
 		<li onclick="aggiungi()"> Aggiungi </li>
 		<li onclick="modifica()"> Modifica </li>
 		<li onclick="elimina()"> Elimina </li>
@@ -39,36 +111,7 @@ if(username == null)
 		</ul>
 		</div>
 		<div class="sub-content" id="sub-content" style="width:50%; height:100%; margin-left:35%;">
-			<div class="div_table">
-				<table class='tabella' id="tabella">
-				<thead>
-				<th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>status</th>
-				<thead>
-				<tbody>
-				</tbody>
-				</table>
-			</div>
-			<div class="div_add" >	
-					<form action='http://localhost:8080/Project/Add_film' method='POST' style="height:100%;width:100%;position:relative;text-align:center;display:table;" enctype="multipart/form-data">
-					<h2>Aggiungi Film </h2>
-						<label>Titolo film:</label>
-						<input type="text" name="titolo"> <br />
-						<label>Data riproduzione film:</label>
-						<input type="date" name="giorno" id="giorno"> <br>
-						<label>Orario inizio film:</label>
-						<input type="time" name="ora_init" id="ora_init"> <br />
-						<label>Orario termine film:</label>
-						<input type="time" name="ora_fine" id="ora_fine"> <br />
-						<label>Sala proiezione del film:</label><br />
-						<input type="radio" name="sala" value="Sala_1" checked> Sala 1 <br />
-						<input type="radio" name="sala" value="Sala_2"> Sala 2 <br />
-						<input type="radio" name="sala" value="Sala_3"> Sala 3 <br />
-						<input type="radio" name="sala" value="Sala_4"> Sala 4 <br />
-						<label>Locandina film:</label>
-						<input type="file" name="file" id="file"> <br /><br />
-		    			<input type='submit' value='Aggiungi'>
-		    		</form>
-			</div>
+			 
 		</div>
 	</div>
 </div>

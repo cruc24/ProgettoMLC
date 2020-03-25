@@ -26,10 +26,16 @@ public class Visualizza_Film extends HttpServlet {
     	response.setContentType("application/json;charset=UTF-8");
     	try {
     		Database db= new Database();
-    		JsonConverter converter = new JsonConverter();
+    		/*JsonConverter converter = new JsonConverter();
     		ServletOutputStream out = response.getOutputStream();
     		String output = converter.convertToJson(db.filmList());
-    		out.println(output);
+    		out.println(output);*/
+    	    String json = new Gson().toJson(db.filmList());
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+    		
+    		
     	}
         	catch(ClassNotFoundException e)	{
 			e.printStackTrace();

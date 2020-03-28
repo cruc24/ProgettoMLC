@@ -6,8 +6,8 @@
 	function show_table(){
 	$(document).ready(function(){
 		$(".press").click(function(){
-			$("#alter_form").css('display','block');
-			$("#tab").css('display','none');
+			$("#tab").hide();
+			$("#alter_form").show();
 			var table = document.getElementById('tab');
 			for(var i = 1; i < table.rows.length; i++)
 			{
@@ -28,28 +28,26 @@
 		});
 	});
 	}
-	$(document).ready(function(){
-		$(".div_table").hide();
-		$(".div_add").hide();
-	})
 
-	/* function mostra(){
+
+	function mostra(){
 	$.get("Visualizza_Film",function(data){
 		var s="";
+		films=data;
 		s=" <table class='tabella' id='tab'><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>status</th>";
-		for(i in data.films)
+		for(i in films)
 			{
 				s+="<tr>";
-				s+="<td>"+data.films[i].titolo+"</td>";
-				s+="<td>"+data.films[i].data+"</td>";
-				s+="<td>"+data.films[i].ora_init+"</td>";
-				s+="<td>"+data.films[i].ora_fine+"</td>";
-				s+="<td>"+data.films[i].sala_cinema+"</td>";
+				s+="<td>"+films[i].titolo+"</td>";
+				s+="<td>"+films[i].data+"</td>";
+				s+="<td>"+films[i].ora_init+"</td>";
+				s+="<td>"+films[i].ora_fine+"</td>";
+				s+="<td>"+films[i].sala_cinema+"</td>";
 				var now = new Date();
 				now = now.getHours()*60 + now.getMinutes();
-				var init = data.films[i].ora_init.split(":");
+				var init = films[i].ora_init.split(":");
 				init = parseInt(init[0])*60 + parseInt(init[1]);
-				var fine = data.films[i].ora_fine.split(":");
+				var fine = films[i].ora_fine.split(":");
 				fine = parseInt(fine[0])*60 + parseInt(fine[1]);
 				if (now>init && now<fine)
 				{
@@ -59,7 +57,7 @@
 				{
 					s+="<td></td>";
 				}
-				s+="<td>"+"<img src='"+"./Locandine_film/"+data.films[i].filename+"'width='50' heigth='50'>"+ "</td>";
+				s+="<td>"+"<img src='"+"./Locandine_film/"+ films[i].filename+"'width='50' heigth='50'>"+ "</td>";
 				s+="</tr>"
 			}
 		s+="</table>";
@@ -67,20 +65,21 @@
 		//setInterval(show(),60000);
 		});
 		}
-	*/
+	
 		function modifica(){
 			$.get("Visualizza_Film",function(data){
 			var s="";
+			var films= data;
 			s=" <table class='tabella' id='tab'><th>id</th><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>action</th>";
-			for(i in data.films)
+			for(i in films)
 				{
 					s+="<tr>";
-					s+="<td>"+data.films[i].id+"</td>";
-					s+="<td>"+data.films[i].titolo+"</td>";
-					s+="<td>"+data.films[i].data+"</td>";
-					s+="<td>"+data.films[i].ora_init+"</td>";
-					s+="<td>"+data.films[i].ora_fine+"</td>";
-					s+="<td>"+data.films[i].sala_cinema+"</td>";
+					s+="<td>"+films[i].id+"</td>";
+					s+="<td>"+films[i].titolo+"</td>";
+					s+="<td>"+films[i].data+"</td>";
+					s+="<td>"+films[i].ora_init+"</td>";
+					s+="<td>"+films[i].ora_fine+"</td>";
+					s+="<td>"+films[i].sala_cinema+"</td>";
 					s+="<td>" + "<button onclick='show_table()' class='press'> modifica</button>"+"</td>";
 					s+="</tr>"
 				}
@@ -106,7 +105,7 @@
 		});
 		}
 	 
-	 function elimina(){
+	 /*function elimina(){
 		 $.get("Visualizza_Film",function(data){
 			 	var s="";
 				s=" <table class='tabella' id='tab'><th>id</th><th>titolo</th><th>Data</th><th>ora inizio</th><th>ora fine</th><th>sala</th><th>action</th>";
@@ -142,7 +141,7 @@
 				    document.getElementById("sub-content").innerHTML=s;
 			});
 		}
-	
+	*/
 	 $(document).ready(function() {
 	    $("#logout").click(function() {
 	    	 $.get("Logout",function(){
@@ -187,7 +186,7 @@
 	 function aggiungi(){
 			var s="";
 			s="<div class='div_add' >";	
-			s+="<form action='http://localhost:8080/Project/Add_film' method='POST' enctype='multipart/form-data'>";
+			s+="<form action='http://localhost:8080/Project/Add_film' method='POST' name='form_add' enctype='multipart/form-data'>";
 			s+="<h2>Aggiungi Film </h2>";
 			s+="<label>Titolo film:</label>";
 			s+="<input type='text' name='titolo'> <br />";
@@ -208,4 +207,22 @@
 			s+="</form>";
 			s+="</div>";
 			document.getElementById("sub-content").innerHTML=s;
+		}
+	 // completare questo
+	 function validateForm() {
+		  var titolo = document.forms["form_add"]["titolo"].value;
+		  if(titolo == null) {
+		    alert("Name must be filled out");
+		    return false;
+		  }
+		  var data= document.forms["form_add"]["giorno"].value;
+		  if(!validateData()){// definire validate date
+			  alert("data non valida");
+			  return false;
+		  }
+		  var data= document.forms["form_add"]["giorno"].value;
+		  if(!validateOra()){// definire validate date
+			  alert("ora non valida");
+			  return false;
+		  }
 		}

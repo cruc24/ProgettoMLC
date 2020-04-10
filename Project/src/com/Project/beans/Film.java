@@ -1,12 +1,12 @@
 package com.Project.beans;
 
 public class Film {
+	
 	private String id;
 	private String titolo;
 	private String data;
 	private String ora_init;
 	private String ora_fine;
-	private String durata;
 	private String sala_cinema;
 	private String filename;
 	private String path;
@@ -41,12 +41,6 @@ public class Film {
 	public String getOra_Fine() {
 		return this.ora_fine;
 	}
-	public void setDurata(String durata) {
-		this.durata=durata;
-	}
-	public String getDurata() {
-		return this.durata;
-	}
 	public void setSala(String sala_cinema) {
 		this.sala_cinema=sala_cinema;
 	}
@@ -65,4 +59,5 @@ public class Film {
 	public String getPath() {
 		return this.path;
 	}
+
 }

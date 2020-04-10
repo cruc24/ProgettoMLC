@@ -11,26 +11,23 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.*;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.Part;
 
-public class Database {
+	public class Database {
 	
-	String user="root";
-	String pwd="root";
-	String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
+	static String user="root";
+	static String pwd="root";
+	static String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
 	
 	public Database() throws ClassNotFoundException
 	{
 		Class.forName("com.mysql.cj.jdbc.Driver"); 
-		
-		
 	}
 	
 	
 	
-	public List<Film> filmList() throws ClassNotFoundException, SQLException{
+	public static List<Film> filmList() throws ClassNotFoundException, SQLException{
 		//Class.forName("com.mysql.cj.jdbc.Driver"); 
 		//String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
 		//String user="root";
@@ -59,7 +56,7 @@ public class Database {
 		return f;
 	}
 	//TIME_FORMAT(ADDTIME(CURTIME(),"2:00"),"%H:%i") dell'ora attuale prende ora e minuto in sql
-	public List<Film> filmSala(String sala) throws ClassNotFoundException, SQLException{
+	public static List<Film> filmSala(String sala) throws ClassNotFoundException, SQLException{
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
 			String user="root";
@@ -90,7 +87,7 @@ public class Database {
 			return f;
 		}
 	
-	public void Addfilm(Film film){
+	public static void Addfilm(Film film){
 		try {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -119,7 +116,8 @@ public class Database {
 			throw new RuntimeException("cannot connect the database!",e );
 			}
 	}
-	public void eliminaFilm(Film film) {
+	
+	public static void eliminaFilm(Film film) {
 		try {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");

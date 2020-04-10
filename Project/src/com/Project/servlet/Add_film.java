@@ -38,14 +38,19 @@ public class Add_film extends HttpServlet {
 			film.setSala(request.getParameter("sala"));
 			Part file= request.getPart("file");
 			String filename= file.getSubmittedFileName();
-			String savePath= this.getServletContext().getRealPath("/Locandine_film")+ File.separatorChar;
+			String savePath= this.getServletContext().getRealPath("")+ "Locandine_film"+ File.separatorChar;
 			film.setFileName(filename);
 			film.setPath(savePath);
+			System.out.println(filename);
+			System.out.println(savePath);
+			System.out.println(file);
+			System.out.println(savePath);
 			Controllo c= new Controllo();
+			
 			try {
-				if( c.controlInsert(film) && !c.Occupato(film) && !c.inCorso(film) && c.ControlOra(film) && c.ControlData(film) )
+				if( c.controlInsert(film) && !c.Occupato(film) && !c.inCorso(film,"aggiungi") && c.ControlOra(film) && c.ControlData(film) )
 				{
-				db.Addfilm(film);
+				Database.Addfilm(film);
 				file.write(savePath+filename);// altrimenti mi da errore di accesso negato perchè non scrivo niente
 				film.setFileName(filename);
 				film.setPath(savePath);

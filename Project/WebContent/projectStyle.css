@@ -1,55 +1,12 @@
 @charset "ISO-8859-1";
-body{
-	/*background-image: url('images/sfondo3.jpg'); */
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-color:#e4e4e4;
-	overflow: hidden;
-	width:100%;
-	height:100%;
-
-}
-.header{
-	top: 0;
-	left:0;
-	background-color: #000000;
-	z-index:1000;
-	height:15%;
-	width:100%;
-	position:absolute;
-	padding:0;
-	border: 2px solid gold;
-}
 .title{
 	color:white;
 	text-shadow: 2px 2px 4px #c0c0c0;
 	text-align:center;
-	font:Cocon;
 	font-size:30pt;
 }
-.content{
-	margin-top:100px;
-	min-width:100%;
-	min-height:100%;
-	font-size:18pt;
-	padding: 2%;
-	font-family:'Dancing Script',serif;
-	font-style:italic;
-	z-index:0;
-	
-}
-.button_header{
-	right:0;
-	bottom:0;
-	position:absolute;
-	background-color:#000000;
-	color:white;
-	padding: 40px 30 px;
-}
-.button_header:hover{
-	background-color: #ffffff;
-	color:black;
-}
+
+
 #gestionesale{
 	background-image: "";
 	 height:auto;
@@ -57,15 +14,15 @@ body{
 	 border:1px,solid,black;
 }
 #login {
-	margin:70px 100px 100px 380px;
-	text-align:center;
-	background: "";
-	width:600px;
-	heigth:600px;
+	width:100%;
+	heigth:100%;
 	display:none;
 }
 #intro{
-	margin:30px 100px 100px 400px;
+	background-color: black;	
+	background-size: cover;	
+	width:100%;
+	height:100%;
 }
 #togglepwd{
 	width:13px;
@@ -78,13 +35,12 @@ body{
 .tabella{
 	font:Yasashii;
 	font-size: 18px;
-	border-radius: 5%;
-	margin-top:1%;
+	border-radius: 1%;
 	text-align: center;
 	border: 1px black solid;
 	background-color:#ffffff;
 	width:100%;
-	height:100%;
+	height:auto;
 	table-layout:fixed;
 	position:relative;
 }
@@ -103,7 +59,7 @@ border-color: white;
 border-top-left-radius: 30%;
 }
 .tabella th:last-child {
-border-top-right-radius: 30%;
+border-top-right-radius: 0%;
 border-right: none;
 }
 .tabella td {
@@ -147,4 +103,51 @@ border-right: none;
 	position:relative;
 	top:1px;
 }
-
+body, html{
+	/*background-image: url('images/sfondo3.jpg'); 
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color:#e4e4e4;*/
+	overflow: hidden;
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+}
+.container{
+	opacity:0.8;
+    background-color:#ccc;
+    width:100%;
+    height:100%;
+    z-index:2000;
+}
+.page{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+.sub-content{
+	width:64%;
+	height:100%; 
+	right:0;
+	text-align:center;
+	float:left;
+	position:relative;
+	align-content:center;
+	background-color:white;
+	background-image: url('images/sfondo3.jpg'); 
+	background-size:cover;
+	background-repeat: no-repeat;
+	
+}
+.header{
+	top: 0;
+	left:0;
+	background-color: #000000;
+	z-index:1000;
+	height:15%;
+	width:100%;
+	position:absolute;
+	padding:0;
+	border: 2px solid gold;
+}

@@ -13,17 +13,18 @@
 			$("#intro").css("display","none"); 
 			$("#login").css("display","block");},2300);
 	});
-// cambio colore dello sfondo dell'elemento sul quale ho il mouse
+// cambio colore dello sfondo dell'elemento del menù sul quale ho il puntatore
 	$(document).ready(function(){
 		$("li").mouseover(function(){
 			$(this).css("background","gold");
-			$(".menu").css("border","2px solid black");		
+			//$(".menu").css("border","2px solid black");		
 		});
 	});
+// ritorno al colore dello sfondo precedente dell'elemento del menù dal quale ho tolto il puntatore 
 	$(document).ready(function(){
 		$("li").mouseout(function(){
-			$(this).css("background","#FFFFFF");
-			$(".menu").css("border","2px solid black");
+			$(this).css("background","black");
+			//$(".menu").css("border","2px solid black");
 		});
 	});
 // tr change
@@ -32,7 +33,7 @@ $(document).ready(function(){
 		$(this).css("background","gold");		
 	});
 });
-// rendo i div toggle
+
 
 /* stampa quale elemento ho clickato
 $(document).ready(function(){

@@ -1,6 +1,5 @@
 package com.Project.servlet;
 import com.Project.beans.*;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -16,18 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 /**
  * Servlet implementation class Access
  */
 @WebServlet("/Access")
 public class Access extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
-			String jsp_url="/login.html";
+			String jsp_url="/login.jsp";
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
@@ -39,8 +37,9 @@ public class Access extends HttpServlet {
 				Utente utente = new Utente();
 				utente.setUserName(request.getParameter("username"));
 				utente.setPassword(request.getParameter("password"));
+				utente.setRole(request.getParameter("roles")); // aggiunto 04/04
 				
-				String sql="select * from users where username=? && password=? ";
+				String sql="select username,password,roles from users where username=? && password=? ";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1, utente.getUserName());
 				statement.setString(2, utente.getPassword());
@@ -49,9 +48,11 @@ public class Access extends HttpServlet {
 				String username= utente.getUserName();
 				if(rs.next())
 					{
+						utente.setRole(rs.getString("roles"));
 						response.sendRedirect("home_definitiva.jsp");
 				    	HttpSession session = request.getSession(true);
 				    	session.setAttribute("username", username);
+				    	session.setAttribute("role", rs.getString("roles"));//04/04
 					}
 				else
 					{	

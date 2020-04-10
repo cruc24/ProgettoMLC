@@ -47,7 +47,7 @@ public class Modifica_Film extends HttpServlet {
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setSala(request.getParameter("sala"));
 				String errore="";
-				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film) || !c.ControlData(film) || !c.controlInsert(film))
+				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film,"modifica") || !c.ControlData(film) || !c.controlInsert(film))
 				{
 					PreparedStatement st=null;
 					String sql="select * from films";
@@ -69,7 +69,7 @@ public class Modifica_Film extends HttpServlet {
 						errore+="sala già occupata.\n";
 						request.setAttribute("errore", errore);
 					}
-					if(c.inCorso(film)){
+					if(c.inCorso(film,"modifica")){
 						errore+="film in esecuzione impossibile modificare.\n";
 						request.setAttribute("errore", errore);
 					}

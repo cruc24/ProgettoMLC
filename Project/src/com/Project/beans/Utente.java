@@ -3,6 +3,7 @@ package com.Project.beans;
 public class Utente {
 	private String username;
 	private String password;
+	private String role;
 	
 	public void setUserName(String username) {
 		this.username=username;
@@ -16,4 +17,12 @@ public class Utente {
 	public String getPassword() {
 		return this.password;
 	}
+	public void setRole(String role) {
+		this.role=role;
+	}
+	public String getRole() {
+		return this.role;
+	}
+	
+
 }

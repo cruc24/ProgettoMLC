@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.Project.beans.Controllo;
 import com.Project.beans.Database;
 import com.Project.beans.Film;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class Elimina_film
@@ -38,46 +40,42 @@ public class Elimina_Film extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			response.setContentType("text/html");
-			PrintWriter out=response.getWriter();
-				Film film = new Film();
-				film.setId(request.getParameter("id"));
-				film.setTitolo(request.getParameter("titolo"));
-				film.setData(request.getParameter("giorno"));
-				film.setOra_Init(request.getParameter("ora_init"));
-				film.setOra_Fine(request.getParameter("ora_fine"));
-				film.setSala(request.getParameter("sala"));
-				Controllo c= new Controllo();
-				String errore="";
-				String jsp_url="";
-				System.out.println(c.inCorso(film));
-				if(c.inCorso(film))
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			//response.setContentType("text/html");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			Film film = new Film();
+			film.setId(request.getParameter("id"));
+			film.setTitolo(request.getParameter("titolo"));
+			film.setData(request.getParameter("giorno"));
+			film.setOra_Init(request.getParameter("ora_init"));
+			film.setOra_Fine(request.getParameter("ora_fine"));
+			film.setSala(request.getParameter("sala"));
+			Controllo c= new Controllo();
+			try {
+				if(c.inCorso(film,"elimina"))
 				{
-					errore+="film in esecuzione impossibile modificare.";
-					//jsp_url="/elimina.jsp";
-					request.setAttribute("errore", errore);
+					request.setAttribute("errore",c.get_map());
+					System.out.println(c.get_map());
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/home_definitiva.jsp");
+			        dispatcher.forward(request, response);
 				}
 				else
 				{
-				Database db;
-				try {
-					db = new Database();
-					db.eliminaFilm(film);
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
+				Database.eliminaFilm(film);
+				}
+			response.sendRedirect("home_definitiva.jsp");
+			
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//jsp_url="/home.jsp";
-				}
-				response.sendRedirect("home_definitiva.jsp");
-				//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
-		        //dispatcher.forward(request, response);
 }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+/*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("text/html");
@@ -148,5 +146,5 @@ public class Elimina_Film extends HttpServlet {
 			throw new RuntimeException("cannot connect the database!",e );
 		}
 	}	
-
+*/
 }

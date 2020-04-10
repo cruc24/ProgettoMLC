@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.Project.beans.Database;
 import com.Project.beans.Film;
 import com.Project.beans.JsonConverter;
+import com.google.gson.Gson;
 import com.mysql.cj.Session;
 
 /**
@@ -34,20 +35,10 @@ public class Gestione_Sale extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			response.setContentType("application/json;charset=UTF-8");
-				Database db;
 				try{
-					db = new Database();
 					String sala= (String)request.getParameter("sala");
-					System.out.println(sala);
-					JsonConverter converter = new JsonConverter();
-			        ServletOutputStream out = response.getOutputStream();
-			        String output=null;
-					if (converter.convertToJson(db.filmSala(sala)) != null)
-						output = converter.convertToJson(db.filmSala(sala));
-					else
-						output = "Non ci sono film in programma nella" + sala + " oggi.";
-						out.println(output);
-						System.out.println(output);
+					String json = new Gson().toJson(Database.filmSala(sala));		          
+		            response.getWriter().write(json);
 					} catch (ClassNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
 						e.printStackTrace();

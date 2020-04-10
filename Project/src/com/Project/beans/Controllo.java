@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.Project.beans.*;
 public class Controllo {
 	
@@ -28,14 +27,13 @@ public class Controllo {
 		String user = "root";
 		String pwd = "root";
 		*/
-		Database db = new Database();
-		Connection connection=DriverManager.getConnection(db.jdbcUrl,db.user,db.pwd); // ritorna un oggetto di tipo connection se si connette
+		Connection connection=DriverManager.getConnection(Database.jdbcUrl,Database.user,Database.pwd); // ritorna un oggetto di tipo connection se si connette
 	    PreparedStatement statement;
-	    String sql = "select * from films where sala=? && giorno=? && id<>?";
+	    //String sql = "select * from films where sala=? && giorno=? && id<>?";
+	    String sql = "select * from films where sala=? && giorno=?";
 		statement = connection.prepareStatement(sql);
 		statement.setString(1,film.getSala());
 		statement.setString(2,film.getData());
-		statement.setString(3,film.getId());
 		ResultSet rs= statement.executeQuery();
 		LocalTime inizio= LocalTime.parse(film.getOra_Init());
 		LocalTime fine= LocalTime.parse(film.getOra_Fine());
@@ -55,14 +53,22 @@ public class Controllo {
 		return false;
 	}
 	
-	public boolean inCorso(Film film){
+	public boolean inCorso(Film film,String mode) throws ParseException{
+		Calendar c =  Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, 0);
+	    c.set(Calendar.MINUTE, 0);
+	    c.set(Calendar.SECOND, 0);
+	    c.set(Calendar.MILLISECOND, 0);
+		Date today = c.getTime();
+		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(film.getData());
 		LocalTime now = LocalTime.now();
 		LocalTime inizio= LocalTime.parse(film.getOra_Init());
 		LocalTime fine= LocalTime.parse(film.getOra_Fine());
-		if(now.isAfter(inizio) && now.isBefore(fine)) {
-			error.put("inCorso","impossibile aggiungere un evento live.");
+		if(now.isAfter(inizio) && now.isBefore(fine)&& today.equals(date1)) {
+			error.put("inCorso","impossibile eseguire:"+mode+"su un evento live.");
+			return true;
 		}
-		return (now.isAfter(inizio) && now.isBefore(fine));
+		return false;
 	}
 	public boolean ControlOra(Film film) {
 		LocalTime inizio= LocalTime.parse(film.getOra_Init());

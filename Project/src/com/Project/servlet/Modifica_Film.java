@@ -1,4 +1,4 @@
-				package com.Project.servlet;
+package com.Project.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,77 +32,37 @@ public class Modifica_Film extends HttpServlet {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
 			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
-				String user="root";
-				String pwd="root";
-				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
-				PreparedStatement statement;
 				Controllo c= new Controllo();
 				Film film = new Film();
-				ArrayList<Film> f= new ArrayList<>();
 				film.setId(request.getParameter("id"));
 				film.setTitolo(request.getParameter("titolo"));
 				film.setData(request.getParameter("giorno"));
 				film.setOra_Init(request.getParameter("ora_init"));
 				film.setOra_Fine(request.getParameter("ora_fine"));
 				film.setSala(request.getParameter("sala"));
-				String errore="";
-				if(c.Occupato(film) || !c.ControlOra(film) || c.inCorso(film,"modifica") || !c.ControlData(film) || !c.controlInsert(film))
-				{
-					PreparedStatement st=null;
-					String sql="select * from films";
-					st=connection.prepareStatement(sql);
-					ResultSet rs = st.executeQuery();
-					while(rs.next()) {
-						Film filmino = new Film();
-						filmino.setId(rs.getString("id"));
-						filmino.setTitolo(rs.getString("titolo"));
-						filmino.setData(rs.getString("giorno"));
-						filmino.setOra_Init(rs.getString("ora_init"));
-						filmino.setOra_Fine(rs.getString("ora_fine"));
-						filmino.setSala(rs.getString("sala"));
-						filmino.setFileName(rs.getString("filename"));
-						filmino.setPath(rs.getString("file_path"));
-						f.add(filmino);
+				c.controlInsert(film);
+				if(c.get_map().isEmpty()){
+					c.ControlData(film);
+					c.ControlOra(film);
+					c.inCorso(film, "aggiungi");
+					c.Occupato(film,"modifica");
+					if(c.get_map().isEmpty())
+					{
+						Database.modificaFilm(film);
+						response.sendRedirect("admin.jsp");
 					}
-					if(c.Occupato(film)){
-						errore+="sala già occupata.\n";
-						request.setAttribute("errore", errore);
-					}
-					if(c.inCorso(film,"modifica")){
-						errore+="film in esecuzione impossibile modificare.\n";
-						request.setAttribute("errore", errore);
-					}
-					if(!c.ControlOra(film)|| !c.ControlData(film)) {
-						errore+="orario/data non valido.\n";
-						request.setAttribute("errore", errore);
-					}
-					//jsp_url="/modifica.jsp";
-					System.out.println(errore);
-					request.setAttribute("errore", errore);
-					request.setAttribute("film", f);
-				}
 				else
 				{
-				String sql="update films set titolo=?,giorno=?,ora_init=?,ora_fine=?,sala=? where id=? ;";
-				statement=connection.prepareStatement(sql);
-				statement.setString(1, film.getTitolo());
-				statement.setString(2, film.getData());
-				statement.setString(3, film.getOra_Init());
-				statement.setString(4, film.getOra_Fine());
-				statement.setString(5, film.getSala());		
-				statement.setString(6, film.getPath());
-				statement.setString(7, film.getFileName());
-				statement.setString(6, film.getId());
-				statement.executeUpdate();
-				//jsp_url="/home.jsp";
+					request.setAttribute("errore",c.get_map());
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/admin.jsp");
+			        dispatcher.forward(request, response);
 				}
-				
-				//RequestDispatcher rd = getServletContext().getRequestDispatcher("/home_definitiva.jsp");
-				//rd.forward(request, response);
-				
-				response.sendRedirect("home_definitiva.jsp");
+			}
+			else {
+				request.setAttribute("errore",c.get_map());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/admin.jsp");
+		        dispatcher.forward(request, response);
+				}
 			}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");
@@ -114,5 +75,5 @@ public class Modifica_Film extends HttpServlet {
 		{
 			throw new RuntimeException("cannot connect the database!",e );
 		}
-	}	
+	}
 }

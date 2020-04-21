@@ -27,28 +27,5 @@
 			//$(".menu").css("border","2px solid black");
 		});
 	});
-// tr change
-$(document).ready(function(){
-	$("tr").mouseover(function(){
-		$(this).css("background","gold");		
-	});
-});
-
-
-/* stampa quale elemento ho clickato
-$(document).ready(function(){
-	$("ul").children("li").each(function(){
-		$(this).click(function(){
-			console.log($(this).text())
-		});
-	});
-});
-*/
-
-
-
-
-
-
-
-
+	
+	

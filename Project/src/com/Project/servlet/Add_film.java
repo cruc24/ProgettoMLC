@@ -1,13 +1,10 @@
 package com.Project.servlet;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Map.Entry;
-
+import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -25,11 +22,7 @@ import com.Project.beans.Film;
 public class Add_film extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.sendRedirect("home.jsp");
-		response.sendRedirect("home_definitiva.jsp");
-		Database db;
 		try {
-			db = new Database();
 			Film film = new Film();
 			film.setTitolo(request.getParameter("titolo"));
 			film.setData(request.getParameter("giorno"));
@@ -39,36 +32,37 @@ public class Add_film extends HttpServlet {
 			Part file= request.getPart("file");
 			String filename= file.getSubmittedFileName();
 			String savePath= this.getServletContext().getRealPath("")+ "Locandine_film"+ File.separatorChar;
-			film.setFileName(filename);
-			film.setPath(savePath);
-			System.out.println(filename);
-			System.out.println(savePath);
-			System.out.println(file);
-			System.out.println(savePath);
+			String file_path= savePath+filename;
 			Controllo c= new Controllo();
-			
-			try {
-				if( c.controlInsert(film) && !c.Occupato(film) && !c.inCorso(film,"aggiungi") && c.ControlOra(film) && c.ControlData(film) )
-				{
-				Database.Addfilm(film);
-				file.write(savePath+filename);// altrimenti mi da errore di accesso negato perchè non scrivo niente
-				film.setFileName(filename);
-				film.setPath(savePath);
-				}
-				else
-				{
-				for(Entry<String, String> m:c.get_map().entrySet()){  
-						   System.out.println(m.getValue());  
-						  }
-				}
-				} catch (ClassNotFoundException | SQLException | ParseException e) {
+			c.controlInsert(film);
+			if(filename==null || filename.trim().equals(""))
+				c.get_map().put("image-missing","la locandina deve inserita");
+			if(c.get_map().isEmpty()) {
+				c.ControlData(film);
+				c.ControlOra(film);
+				c.inCorso(film, "aggiungi");
+				c.Occupato(film,"aggiungi");
+					if(c.get_map().isEmpty())
+					{
+						file.write(file_path);
+						Database.Addfilm(film,file_path);
+						response.sendRedirect("admin.jsp");
+					}
+					else
+					{
+						request.setAttribute("errore",c.get_map());
+						RequestDispatcher dispatcher = request.getRequestDispatcher("/admin.jsp");
+				        dispatcher.forward(request, response);
+					}
+			}
+			else {
+					request.setAttribute("errore",c.get_map());
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/admin.jsp");
+					dispatcher.forward(request, response);
+			}
+			} catch (ClassNotFoundException | SQLException | ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-																  }
-		// fare controlli dei valori inseriti
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 	}
 }

@@ -1,5 +1,6 @@
 package com.Project.beans;
 
+
 public class Film {
 	
 	private String id;
@@ -8,8 +9,7 @@ public class Film {
 	private String ora_init;
 	private String ora_fine;
 	private String sala_cinema;
-	private String filename;
-	private String path;
+	private String image;
 	
 	public void setId(String id){
 		this.id=id;
@@ -47,7 +47,7 @@ public class Film {
 	public String getSala() {
 		return this.sala_cinema;
 	}
-	public void setFileName(String filename){
+	/*public void setFileName(String filename){
 		this.filename=filename;
 	}
 	public String getFileName() {
@@ -58,6 +58,11 @@ public class Film {
 	}
 	public String getPath() {
 		return this.path;
+	}*/
+	public void setImage(String image){
+		this.image=image;
 	}
-
+	public String getImage() {
+		return this.image;
+	}
 }

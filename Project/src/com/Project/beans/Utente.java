@@ -1,6 +1,7 @@
 package com.Project.beans;
 
 public class Utente {
+	
 	private String username;
 	private String password;
 	private String role;

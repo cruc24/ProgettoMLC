@@ -25,44 +25,51 @@ public class Access extends HttpServlet {
 		try {
 			response.setContentType("text/html");
 			PrintWriter out=response.getWriter();
-			String jsp_url="/login.jsp";
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				String jdbcUrl="jdbc:mysql://localhost:3306/progetto?serverTimezone=UTC";
 				String user="root";
 				String pwd="root";
-				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd); // ritorna un oggetto di tipo connection se si connette
+				Connection connection=DriverManager.getConnection(jdbcUrl,user,pwd);
 				PreparedStatement statement;
-				
 				Utente utente = new Utente();
 				utente.setUserName(request.getParameter("username"));
 				utente.setPassword(request.getParameter("password"));
-				utente.setRole(request.getParameter("roles")); // aggiunto 04/04
-				
+				Controllo c= new Controllo();
+				if(Controllo.check_User_Null(utente))
+				{
 				String sql="select username,password,roles from users where username=? && password=? ";
 				statement=connection.prepareStatement(sql);
 				statement.setString(1, utente.getUserName());
 				statement.setString(2, utente.getPassword());
 				ResultSet rs= statement.executeQuery();
-				String messaggio="Login/Password errati.";
+				String messaggio="Login/Password errati o non presenti.";
 				String username= utente.getUserName();
 				if(rs.next())
 					{
 						utente.setRole(rs.getString("roles"));
-						response.sendRedirect("home_definitiva.jsp");
+						response.sendRedirect("Home.jsp");
 				    	HttpSession session = request.getSession(true);
 				    	session.setAttribute("username", username);
-				    	session.setAttribute("role", rs.getString("roles"));//04/04
+				    	session.setAttribute("role", rs.getString("roles"));
+				    	session.setMaxInactiveInterval(30*60);
 					}
 				else
 					{	
-					request.setAttribute("messaggio", messaggio);
-				    jsp_url="/login.jsp";
-				    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp_url);
+					c.get_map().put("error-access", messaggio);
+					request.setAttribute("errore", c.get_map());
+				    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
 			        dispatcher.forward(request, response);   
-						
 					}
-			}
+				}
+				else
+				{
+					c.get_map().put("utente-insert", "Username/Password non possono essere null.");
+					request.setAttribute("errore", c.get_map());
+				    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+			        dispatcher.forward(request, response);   
+				}
+		}
 			catch(ClassNotFoundException e)	{
 				out.println("class not found.");
 				}
